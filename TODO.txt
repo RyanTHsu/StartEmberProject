@@ -9,6 +9,10 @@
 
 Your Ember.js project is almost ready! Here's how to get started:
 
+- If you dont have bower installed then: npm install -g bower
+
+- Bower install
+
 - Start writing your app in js/app.js.
 
 - Describe your application HTML in index.html.
