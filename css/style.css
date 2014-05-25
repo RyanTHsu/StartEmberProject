@@ -1,4 +1,152 @@
-/* Put your CSS here */
 html, body {
-    margin: 20px;
+  overflow: auto;
+  height: 100%;
+}
+
+body {
+	padding-top:70px;
+}
+
+
+#leftCol{
+  float:left;
+  width: 23%;
+  height: 100%;
+  overflow: auto;
+}
+
+.leftCol{
+  float:left;
+  width: 23%;
+  height: 100%;
+  overflow: auto;
+}
+
+#rightCol {
+  height: 100%;
+  overflow: auto;
+}
+
+.nav-list {
+  margin-top: 0px; 
+  padding-top: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  line-height: 3px;
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-header{
+  margin-top: 0px; 
+}
+
+.tree-toggle li{
+  margin-top: 0px;
+  padding-top: 0px;
+  line-height: 3px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  bottom: 0px;
+}
+
+.list-group > li{
+   line-height: 5px;
+   font-weight: bold;
+   background: #ffffff;
+}
+
+.list-group > li:hover{
+  background: #E6E6FA;
+  z-index: 1001;
+}
+
+.list-group{
+  margin-top: 0;
+}
+
+.list-group-item {
+  line-height: 18px;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+.list-group-item label:hover{
+  cursor: pointer;
+}
+
+.well{
+  padding: 2px;
+}
+
+.tree li{
+  margin-top: 0px;
+  padding-top: 0px;
+  line-height: 3px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-std-size{
+  font-size: 20px;
+}
+
+/*.divider {
+  margin-top: 9px;
+  border-bottom: 1px solid #E6E6FA;
+  margin-bottom: 9px;
+}*/
+
+.navbar .divider-vertical {
+    height: 40px;
+    margin: 5px 9px;
+    border-left: 1px solid #f2f2f2;
+    border-right: 1px solid #ffffff;
+}
+
+.line-separator{
+  border-left: 1px solid #E6E6FA;
+}
+
+.title-btn{
+  font-weight: bold;
+}
+
+.icon-bar {
+	background-color:#fff;
+}
+
+.navbar-collapse{
+  /*padding-top:3px;
+  padding-bottom:3px;*/
+}
+
+.dropdown-menu{
+  width: 250px;
+  border-top:0px;
+  margin-bottom:7px; 
+}
+
+.dropdown-menu .col-sm-12{
+  /*margin-top:5px;
+  margin-bottom:5px;*/
+  padding: 8px;
+}
+
+.dropdown-menu:after{
+  content: '';
+  display: inline-block;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  position: absolute;
 }

@@ -1,31 +1,388 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
-<meta charset="utf-8">
-<title>Ember Starter Kit</title>
+  <title>Ember Starter Kit</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="js/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="js/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+  <!--<link rel="stylesheet" href="dist/bootstrap/css/bootstrap.min.css">-->
+  <!--<link rel="stylesheet" href="dist/bootstrap/css/bootstrap-responsive.min.css">-->
+  <link rel="stylesheet" href="js/lib/emberui/dist/emberui.css">
+  <link rel="stylesheet" href="js/lib/emberui/dist/default-theme.css">
+  <script src="js/lib/modernizr/modernizr.js"></script>
 </head>
 <body>
+<script type="text/x-handlebars">
+	<div class="header">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+		<div class="navbar-header">
+		    <a class="navbar-brand" href="#">Ryan&rsquo;s Ember</a>
+		</div>
 
-  <script type="text/x-handlebars">
-    <h2>Welcome to Ember.js</h2>
+	  	<div class="btn-group nav pull-right" style="padding-top:7px;">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                    Sign Up <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-left" >
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <input type="text" placeholder="Uname or Email" onclick="return false;" class="form-control input-md" id="inputError" />
+                        </div>
+                        <br/>
+                        <div class="col-sm-12">
+                            <input type="password" placeholder="Password" class="form-control input-md" name="password" id="Password1" />
+                        </div>
+                        <div class="col-sm-12">
+                            <input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="user[remember_me]" value="1" />
+                        	<label class="string optional" for="user_remember_me"> Remember me</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="commit" value="sign_in">Register</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="nav divider-vertical pull-right"></div>
+	  	<ul class="nav pull-right" style="padding-top:5px;">
+          <li>
+            <a id="login" class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-lock"></span>&nbsp;Login<strong class="caret"></strong></a>
+            <div class="dropdown-menu dropdown-menu-right" style="padding: 15px;">
+            <form action="[YOUR ACTION]" method="post" accept-charset="UTF-8">
+              	<div class="form-group">
+				  <input id="user_username" placeholder="Username or Email" class="form-control" style="margin-bottom: 15px;" type="text" name="user[username]" size="30" />
+				  <input id="user_password" placeholder="Password" class="form-control" style="margin-bottom: 15px;" type="password" name="user[password]" size="30" />
+				  <input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="user[remember_me]" value="1" />
+				  <label class="string optional" for="user_remember_me"> Remember me</label>
+				 
+				  <input class="btn btn-primary" style="clear: left; width: 100%; margin-top:12px; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
+				</div>
+			</form>
+            </div>
+          </li>
+        </ul>
+        <div class="nav divider-vertical pull-right"></div>
+        <ul class="nav pull-right">
+		  		<li>
+		  			<p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">SomeOne</a></p>
+		  		</li>
+		</ul>
+	</div>
+	</nav>
+  	</div>
 
+	<div class="container-fluid">
+    <div class="row">
+   	<div class="col-md-3" id="leftCol">
+    	{{post-summary}}
+	</div>
+	<div class="line-separator"></div>
+    <div class="col-md-9" id="rightCol">
+    	{{outlet}}
+    </div>
+    </div>      
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="components/post-summary">
+	<div class="list-group" id="accordion">
+		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		User, Role, Group
+		</a>
+		<div id="collapseOne" class="panel-collapse collapse in">
+			<ul class="nav list-group">
+				<li>{{#link-to 'users'}}User Accounts{{/link-to}}</li>
+		        <li>{{#link-to 'roles'}}Role Accounts{{/link-to}}</li>
+		        <li>{{#link-to 'groups'}}Group Accounts{{/link-to}}</li>
+		    </ul>
+		</div>
+		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		Dapibus ac facilisis
+		</a>
+		<div id="collapseTwo" class="panel-collapse collapse in">
+			<ul class="nav list-group">
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		    </ul>
+		</div>
+		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+		Morbi leo risus
+		</a>
+	  	<div id="collapseThree" class="panel-collapse collapse in">
+			<ul class="nav list-group">
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		    </ul>
+		</div>
+	</div>	
+</script>
+
+<script type="text/x-handlebars" id="users">
+<div class="users">
+<h3>Users <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewUser'}}>New user</button></h3>
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+    <tr>
+      <td>username</td>
+      <td>description</td>
+      <td>
+        <span class="edit glyphicon glyphicon-edit icon-std-size"></span>
+        <span class="remove glyphicon glyphicon-remove-circle icon-std-size"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</script>
+
+
+<script type="text/x-handlebars" id="user">
+<div class="user">
+<div class="container">
+  <div class="row preview">
+    <div class="col-md-8">
+      <h2>{{name}}</h2>
+      <p>{{description}}</p>  
+    </div>
+  </div>
+  <div class="row">
     {{outlet}}
-  </script>
+  </div>
+</div>
+</div>
+</script>
 
-  <script type="text/x-handlebars" data-template-name="index">
-    <ul>
-    {{#each item in model}}
-      <li>{{item}}</li>
-    {{/each}}
-    </ul>
-  </script>
+<script type="text/x-handlebars" id="edit">
+<div class="edit">
+{{#with controllers.user.content}}
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Edit user</legend>
+    {{partial 'form'}}
+  </fieldset>
+</form>
+<div class="btn-group">
+  <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>
+  <button class="btn btn-large btn-danger" {{action 'cancel' this}}>Cancel</button>
+</div>
+{{/with}}
+</div>
+</script>
 
-  <script src="js/libs/jquery/jquery.js"></script>
-  <script src="js/libs/handlebars/handlebars.js"></script>
-  <script src="js/libs/ember/ember.js"></script>
-  <script src="js/app.js"></script>
+<script type="text/x-handlebars" id="form">
+<div class="form">
+<div class="form-group">
+  <label class="control-label col-lg-2" for="inputName">Name</label>
+  <div class="col-lg-10">
+    {{view Ember.TextField id="inputName" classNames="form-control"}}
+  </div>
+</div>
+<div class="form-group">
+  <label class="control-label col-lg-2" for="textareaDescription">Description</label>
+  <div class="col-lg-10">
+    {{view Ember.TextArea classNames="form-control" id="textareaDescription"}}
+  </div>
+</div>
+</div>
+</script>
 
+<script type="text/x-handlebars" id="new">
+<div class="new">
+<form class="form-horizontal" role="form">
+<fieldset>
+    <legend>New user</legend>
+    {{partial 'form'}}
+</fieldset>
+</form>
+<div class="btn-group">
+  <button class="btn btn-large btn-primary">Create</button>
+  <button class="btn btn-large btn-danger">Cancel</button>
+</div>
+</div>
+</script>
+
+<script type="text/x-handlebars" id="roles">
+<div class="angular">
+<p>This is the default page of roles</p>
+</div>
+</script>
+
+
+<script type="text/x-handlebars" id="groups">
+<div class="backbone">
+<p>This is the default page of groups</p>
+</div>
+</script>
+
+<script type="text/x-handlebars" id="item1">
+<div class="item1">
+<p>This is item1.</p>
+</div>
+</script>
+
+<script type="text/x-handlebars" id="item2">
+<div class="item2">
+<p>This is item2.</p>
+</div>
+</script>
+
+<script src="js/lib/jquery/jquery-2.0.3.min.js"></script>
+<script src="js/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/lib/handlebars/handlebars.js"></script>
+<script src="js/lib/ember/ember.js"></script>
+<script src="js/app.js"></script>
+<!--<script src="js/lib/emberui/dist/globals/main.js"></script>-->
+<!--<script src="js/lib/ember-addons.bs_for_ember/dist/js/bs-core.min.js"></script>-->
+<!--<script src="js/lib/ember-addons.bs_for_ember/dist/js/bs-alert.min.js"></script>-->
 </body>
 </html>
+
+<!--
+<div class="header">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="navbar-inner">
+		<div class="container-fluid">
+	    <div class="navbar-header">
+	      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="#">Your App</a>
+	  	</div>
+	  		
+	  	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	  	<ul class="nav">
+	  		<li>
+	  			<p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">SomeOne</a></p>
+	  		</li>
+	  	</ul>
+	      		
+	      		<form class="navbar-form navbar-right" role="search">
+				  <div class="form-group">
+				    <input type="text" class="form-control" placeholder="Search">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+		        <ul class="nav pull-right">
+	    </div>
+		</div>
+		</div>
+	</nav>
+  	</div>
+<div class="well">
+	<ul class="nav nav-list">
+		<li><label {{action "toggleBody"}} class="tree-toggle nav-header">Menu1</label></li>
+		{{#if isShowingBody}}
+			<li>{{#link-to 'ember'}}Ember{{/link-to}}</li>
+			<li>{{#link-to 'angular'}}Angular{{/link-to}}</li>
+			<li><a href="#">Backbone</a></li>
+		{{/if}}
+		<li class="divider"></li>
+		<li><label {{action "toggleBody"}} class="tree-toggle nav-header">Menu2</label></li>
+		{{#if isShowingBody}}
+			<li>{{#link-to 'item1'}}Item1{{/link-to}}</li>
+			<li>{{#link-to 'item2'}}Item2{{/link-to}}</li>
+		{{/if}}
+	</ul>
+</div>-->
+<!--
+<div class="container-fluid">
+    <div class="row">
+    	<div class="col-md-3" id="leftCol">
+	      <div class="well">
+		      <ul class="nav nav-list">
+		          <li><label class="tree-toggle nav-header">Menu1</label>
+		              <ul class="nav nav-list tree nav-pills nav-stacked">
+		                <li>{{#link-to 'ember'}}Ember{{/link-to}}</li>
+		                <li>{{#link-to 'angular'}}Angular{{/link-to}}</li>
+		                 <li><a href="#">Backbone</a></li>
+		              </ul>
+		          </li>
+		          <li class="divider"></li>
+		          <li><label class="tree-toggle nav-header">Menu2</label>
+		              <ul class="nav nav-list tree nav-pills nav-stacked">
+		                  <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                  <li><a href="#">item2</a></li>
+		              </ul>
+		          </li>
+		      </ul>
+	    	</div>
+	    	
+    	</div>
+    	<div class="col-md-9" id="rightCol">
+    		{{outlet}}
+    	</div>
+    </div>      
+   </div>
+-->
+
+ <!--<script type="text/x-handlebars">
+	<ul class="list-group">
+		<li><label class="tree-toggle list-group-item">Menu1</label>
+		            <ul class="nav list-group tree">
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		            </ul>
+				</li>
+		       
+		       <li><label class="tree-toggle list-group-item">Menu2</label>
+		            <ul class="nav list-group tree">
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		            </ul>
+				</li>
+		        <li><label class="tree-toggle list-group-item">Menu3</label>
+		            <ul class="nav list-group tree">
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		                <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
+		                <li><a href="#">item2</a></li>
+		            </ul>
+				</li>
+			</ul>
+	
+	<ul class="nav list-group tree">
+		                <li>{{#link-to 'ember'}}Ember{{/link-to}}</li>
+		                <li>{{#link-to 'angular'}}Angular{{/link-to}}</li>
+		                <li><a href="#">Backbone</a></li>
+		                <li>{{#link-to 'ember'}}Ember{{/link-to}}</li>
+		                <li>{{#link-to 'angular'}}Angular{{/link-to}}</li>
+		                <li><a href="#">Backbone</a></li>
+		                <li>{{#link-to 'ember'}}Ember{{/link-to}}</li>
+		                <li>{{#link-to 'angular'}}Angular{{/link-to}}</li>
+		                <li><a href="#">Backbone</a></li>
+		            </ul>
+
+    {{bs-alert message="This is a seccess messsage!" type="success" dismissAfter=3 fade=true}}
+  	
+  	{{outlet}}
+  </script>-->
