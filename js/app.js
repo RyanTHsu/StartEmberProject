@@ -59,11 +59,11 @@ App.IndexRoute = Ember.Route.extend({
     }
 });
 
-/*App.UsersRoute = Ember.Route.extend({
+App.UsersRoute = Ember.Route.extend({
     model: function() {
-        //return App.User;
+        return users;
     }
-});*/
+});
 
 /*
 App.UserRoute = Ember.Route.extend({
@@ -75,15 +75,24 @@ App.UserRoute = Ember.Route.extend({
             guid: model.get('guid')
         };
     }
+});*/
+
+App.NewRoute = Ember.Route.extend({
+
 });
 
-App.UserNewRoute = Ember.Route.extend({
-    model: function() {
-        // provide a new photo to the template
-        //return App.User.create();
+
+var users = [{
+        id: '1',
+        name: "Tom Cruise",
+        description: "tomcruise@abc.com"
+    }, {
+        id: '2',
+        name: "Barrack Obama",
+        description: "barrackobama@abc.com"
     }
-});
-*/
+
+]
 
 /*
 Model
