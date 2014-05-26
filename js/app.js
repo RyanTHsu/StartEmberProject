@@ -6,6 +6,8 @@ App = Ember.Application.create({
     LOG_ACTIVE_GENERATION: true,
 });
 
+App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
 App.Router.reopen({
     rootURL: '/blog/'
 });
@@ -20,7 +22,7 @@ App.Router.map(function() {
     });
     // view an existing user account
     this.resource('user', {
-        path: '/user/:guid'
+        path: '/user/:id'
     }, function() {
         // edit an existing user
         this.route('edit');
@@ -35,18 +37,19 @@ App.Router.map(function() {
 });
 
 
-
-
-
-
 /*
 Route
 */
+
+
 
 App.ApplicationRoute = Ember.Route.extend({
     actions: {
         goToNewUser: function() {
             this.transitionTo('new');
+        },
+        goToUser: function(model) {
+            this.transitionTo('user', model);
         }
     }
 
@@ -61,28 +64,47 @@ App.IndexRoute = Ember.Route.extend({
 
 App.UsersRoute = Ember.Route.extend({
     model: function() {
-        return users;
+        return this.store.find('user');
     }
 });
 
-/*
 App.UserRoute = Ember.Route.extend({
     model: function(params) {
-        return this.storage.find(App.User, params.guid);
-    },
-    serialize: function(model) {
-        return {
-            guid: model.get('guid')
-        };
+        return this.store.find('user', params.id);
     }
-});*/
+});
 
 App.NewRoute = Ember.Route.extend({
+    actions: {
+        create: function() {
+            // Get the todo title set by the "New Todo" text field
+            var title = this.get('newTitle');
+            if (!title.trim()) {
+                return;
+            }
 
+            // Create the new Todo model
+            var user = this.store.createRecord('user', {
+                name: name,
+                isCompleted: false
+            });
+
+            // Clear the "New Todo" text field
+            this.set('newTitle', '');
+
+            // Save the new model
+            user.save();
+            this.transitionTo('users');
+        }
+
+        cancel: function() {
+            this.transitionTo('users');
+        }
+    }
 });
 
 
-var users = [{
+/*var users = [{
         id: '1',
         name: "Tom Cruise",
         description: "tomcruise@abc.com"
@@ -92,7 +114,7 @@ var users = [{
         description: "barrackobama@abc.com"
     }
 
-]
+]*/
 
 /*
 Model
@@ -166,14 +188,14 @@ App.User = App.Model.extend({
 Controller
 */
 
-/*App.UsersController = Ember.ArrayController.extend({
-    contentBinding: 'storage.cache.user'
+App.UsersController = Ember.ArrayController.extend({
+    contentBinding: 'user'
 });
 
 
 App.UserEditController = Ember.ObjectController.extend({
     needs: ['user']
-});*/
+}); * /
 
 $(function() {
     $('.list-group-item').css('background', '#F8F8F8');
@@ -187,16 +209,17 @@ $(function() {
     });
 
     $('.list-group > li').click(function() {
-        //var color = $(this).css('color');
-        //$('.list-group > li').removeClass('active');
-        $(this).addClass('active');
-        $('.list-group-item').css('background', '#F8F8F8');
-        $('.list-group-item').css('color', '#000000');
-        $(this).parent().parent().prev('a').css('background', '#6495ED');
-        $(this).parent().parent().prev('a').css('color', '#ffffff');
-    });
+        / /
+var color = $(this).css('color');
+//$('.list-group > li').removeClass('active');
+$(this).addClass('active');
+$('.list-group-item').css('background', '#F8F8F8');
+$('.list-group-item').css('color', '#000000');
+$(this).parent().parent().prev('a').css('background', '#6495ED');
+$(this).parent().parent().prev('a').css('color', '#ffffff');
+});
 
-    /*var guid = (function() {
+/*var guid = (function() {
           function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
                      .toString(16)
@@ -208,23 +231,23 @@ $(function() {
           };
     })();*/
 
-    /*$('.tree-toggle').click(function () {
+/*$('.tree-toggle').click(function () {
       $(this).parent().children('ul.tree').toggle(300);
     });*/
 
-    /*$('.tree-toggle').hover(function () {
+/*$('.tree-toggle').hover(function () {
       $(this).css('cursor', 'pointer');
     });*/
 
-    /*$('.list-group-item').mouseover(function(){
+/*$('.list-group-item').mouseover(function(){
       $(this).addClass('active');
     });*/
 
-    /*$('.list-group-item').mouseout(function(){
+/*$('.list-group-item').mouseout(function(){
       $(this).removeClass('active');
     });*/
 
-    $('.dropdown-menu input').click(function(event) {
-        event.stopPropagation();
-    });
+$('.dropdown-menu input').click(function(event) {
+event.stopPropagation();
+});
 });
