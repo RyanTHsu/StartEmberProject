@@ -16,7 +16,9 @@ App.Router.map(function() {
     // list of all registered users
     this.resource('users', function() {
         // edit an existing user
-        this.route('edit', {path: '/:user_id' });
+        this.route('edit', {
+            path: '/:user_id'
+        });
     });
 
     this.resource('user', {
@@ -25,12 +27,12 @@ App.Router.map(function() {
         // edit an existing user
         this.route('edit');
     });
-    
+
     this.resource('usernew', {
         path: 'user/new'
     });
     // view an existing user account
-    
+
 
     this.resource('roles');
     this.resource('groups');
@@ -79,7 +81,7 @@ App.UserRoute = Ember.Route.extend({
 });
 
 App.UsernewRoute = Ember.Route.extend({
-    model: function(){
+    model: function() {
         var obj = Ember.Object.extend(Ember.Copyable, {
             id: null,
             name: null,
@@ -91,12 +93,12 @@ App.UsernewRoute = Ember.Route.extend({
                 }*/
 
                 //if (Em.isNone(this.store.find('user', 1))){
-                    // guid is null when item is being created
-                    // set the guid for this item to new guid
-                    /*this.store.createRecord('user', {
+                // guid is null when item is being created
+                // set the guid for this item to new guid
+                /*this.store.createRecord('user', {
                         id: this.createGUID()
                     });*/
-                    this.set('id', this.createGUID());
+                this.set('id', this.createGUID());
                 //}
             },
 
@@ -108,8 +110,8 @@ App.UsernewRoute = Ember.Route.extend({
                 }
 
                 return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                        s4() + '-' + s4() + s4() + s4();
-                
+                    s4() + '-' + s4() + s4() + s4();
+
             },
 
             copy: function() {
@@ -122,7 +124,7 @@ App.UsernewRoute = Ember.Route.extend({
                 return this.getProperties(["id", "name", "description"]);
             }
         });
-        
+
         return obj.create();
     }
 
@@ -135,7 +137,7 @@ App.UsernewRoute = Ember.Route.extend({
 });
 
 App.UserEditRoute = Ember.Route.extend({
-    model: function(){
+    model: function() {
         return this.modelFor('user');
     },
 
@@ -145,12 +147,14 @@ App.UserEditRoute = Ember.Route.extend({
 });
 
 App.UsersEditRoute = Ember.Route.extend({
-    model: function(param){
+    model: function(param) {
         return this.store.find('user', param.user_id);
     },
 
     renderTemplate: function() {
-        this.render('users.edit',{into:'application'});
+        this.render('users.edit', {
+            into: 'application'
+        });
     }
 });
 
@@ -246,11 +250,11 @@ App.UsersController = Ember.ArrayController.extend({
     sortAscending: true,
     item: null,
     actions: {
-        edit: function(model){
-          this.transitionToRoute('users.edit', model);
+        edit: function(model) {
+            this.transitionToRoute('users.edit', model);
         },
 
-        delete: function(model){
+        delete: function(model) {
             $('#dialog1').modal('show');
 
             //this.toggleProperty('deleteMode');
@@ -263,29 +267,29 @@ App.UsersController = Ember.ArrayController.extend({
             //this.transitionToRoute('users');
         },
 
-        cancelDelete: function(){
-          // set deleteMode back to false
-          //this.set('deleteMode', false);
-          $('#dialog1').modal('hide');
+        cancelDelete: function() {
+            // set deleteMode back to false
+            //this.set('deleteMode', false);
+            $('#dialog1').modal('hide');
         },
 
-        confirmDelete: function(model){
-          // this tells Ember-Data to delete the current user
-          this.get('item').deleteRecord();
-          this.get('item').save();
-          // and then go to the users route
-          //this.transitionToRoute('users');
-          // set deleteMode back to false
-         // this.set('deleteMode', false);
-          $('#dialog1').modal('hide');
+        confirmDelete: function(model) {
+            // this tells Ember-Data to delete the current user
+            this.get('item').deleteRecord();
+            this.get('item').save();
+            // and then go to the users route
+            //this.transitionToRoute('users');
+            // set deleteMode back to false
+            // this.set('deleteMode', false);
+            $('#dialog1').modal('hide');
         }
     }
 });
 
 App.UserController = Ember.ObjectController.extend({
     actions: {
-        edit: function(){
-          this.transitionToRoute('user.edit');
+        edit: function() {
+            this.transitionToRoute('user.edit');
         }
     }
 });
@@ -293,12 +297,12 @@ App.UserController = Ember.ObjectController.extend({
 App.UsersEditController = Ember.ObjectController.extend({
     //contentBinding: 'user'
     actions: {
-        update: function(model){
+        update: function(model) {
             model.save();
             this.transitionToRoute("/users");
         },
 
-        save: function(){
+        save: function() {
             var user = this.get('model');
             // this will tell Ember-Data to save/persist the new record
             user.save();
@@ -306,7 +310,7 @@ App.UsersEditController = Ember.ObjectController.extend({
             this.transitionToRoute('users');
         },
 
-        cancel: function(model){
+        cancel: function(model) {
             //Ember.run(model, "destroy" );
             //this.storage.refresh('user');
             this.transitionToRoute('/users');
@@ -316,15 +320,15 @@ App.UsersEditController = Ember.ObjectController.extend({
 
 App.UserEditController = Ember.ObjectController.extend({
     needs: ['user'],
-    update: function(model){
-            model.save();
-            this.transitionTo("users");
+    update: function(model) {
+        model.save();
+        this.transitionTo("users");
     },
 
-    cancel: function(){
-            //Ember.run(model, "destroy" );
-            //this.storage.refresh('user');
-            this.transitionToRoute('users');
+    cancel: function() {
+        //Ember.run(model, "destroy" );
+        //this.storage.refresh('user');
+        this.transitionToRoute('users');
     }
 });
 
@@ -376,17 +380,18 @@ $(function() {
     });
 
     $('.list-group > li').click(function() {
-        / /
-var color = $(this).css('color');
-//$('.list-group > li').removeClass('active');
-$(this).addClass('active');
-$('.list-group-item').css('background', '#F8F8F8');
-$('.list-group-item').css('color', '#000000');
-$(this).parent().parent().prev('a').css('background', '#6495ED');
-$(this).parent().parent().prev('a').css('color', '#ffffff');
-});
+        $('.list-group > li').css('background', '#ffffff');
+        $(this).css('background', '#f2f2f2');
+        //var color = $(this).css('color');
+        //$('.list-group > li').removeClass('active');
+        $(this).addClass('active');
+        $('.list-group-item').css('background', '#F8F8F8');
+        $('.list-group-item').css('color', '#000000');
+        $(this).parent().parent().prev('a').css('background', '#6495ED');
+        $(this).parent().parent().prev('a').css('color', '#ffffff');
+    });
 
-/*var guid = (function() {
+    /*var guid = (function() {
           function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
                      .toString(16)
@@ -398,23 +403,23 @@ $(this).parent().parent().prev('a').css('color', '#ffffff');
           };
     })();*/
 
-/*$('.tree-toggle').click(function () {
+    /*$('.tree-toggle').click(function () {
       $(this).parent().children('ul.tree').toggle(300);
     });*/
 
-/*$('.tree-toggle').hover(function () {
+    /*$('.tree-toggle').hover(function () {
       $(this).css('cursor', 'pointer');
     });*/
 
-/*$('.list-group-item').mouseover(function(){
+    /*$('.list-group-item').mouseover(function(){
       $(this).addClass('active');
     });*/
 
-/*$('.list-group-item').mouseout(function(){
+    /*$('.list-group-item').mouseout(function(){
       $(this).removeClass('active');
     });*/
 
-$('.dropdown-menu input').click(function(event) {
-event.stopPropagation();
-});
+    $('.dropdown-menu input').click(function(event) {
+        event.stopPropagation();
+    });
 });
