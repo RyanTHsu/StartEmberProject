@@ -76,7 +76,7 @@
 	</nav>
   	</div>
 
-	<div class="container-fluid">
+  	<div class="container-fluid">
     <div class="row">
    	<div class="col-md-3" id="leftCol">
     	{{post-summary}}
@@ -131,7 +131,6 @@
 </script>
 
 <script type="text/x-handlebars" id="users">
-<div class="users">
 <h3>Users <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewUser'}}>New user</button></h3>
 <table class="table table-striped">
   <tbody>
@@ -145,13 +144,30 @@
     <td {{action 'goToUser' this}}><a href="#">{{name}}</a></td>
     <td {{action 'goToUser' this}}>{{description}}</td>
       <td>
-        <span class="edit glyphicon glyphicon-edit icon-std-size"></span>
-        <span class="remove glyphicon glyphicon-remove-circle icon-std-size"></span>
+        <span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'edit' this}}></span>&nbsp;
+        <span class="remove glyphicon glyphicon-remove-circle icon-std-size red" data-toggle="modal" data-target="#dialog1" {{action 'delete' this}}></span>
       </td>
     </tr>
+    
   {{/each}}
   </tbody>
 </table>
+<div id="dialog1" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Delete Item?</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p>Are you sure deleting this item permanantly?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" {{action "cancelDelete"}}>No</button>
+		        <button type="button" class="btn btn-primary" {{action "confirmDelete"}}>Yes</button>
+		      </div>
+		    </div>
+		</div>
 </div>
 </script>
 
@@ -161,10 +177,13 @@
 <div class="container-fluid">
   <div class="row preview">
     <div class="col-md-8">
-      <h2>{{name}}</h2>
+    
+      <h2>{{name}}<button class="pull-right btn btn-large btn-primary" {{action 'edit'}}>Edit</button></h2>
       <p>{{description}}</p>  
     </div>
   </div>
+  <br>
+  <br>
   <div class="row">
     {{outlet}}
   </div>
@@ -172,9 +191,25 @@
 </div>
 </script>
 
-<script type="text/x-handlebars" id="edit">
+<script type="text/x-handlebars" id="user/edit">
 <div class="edit">
-{{#with controllers.user.content}}
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Edit user</legend>
+    {{partial 'form'}}
+  </fieldset>
+</form>
+<div class="btn-group">
+  <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>
+  <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
+</div>
+</div>
+</script>
+
+
+
+<script type="text/x-handlebars" id="users/edit">
+<div class="edit">
 <form class="form-horizontal">
   <fieldset>
     <legend>Edit user</legend>
@@ -185,7 +220,6 @@
   <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>
   <button class="btn btn-large btn-danger" {{action 'cancel' this}}>Cancel</button>
 </div>
-{{/with}}
 </div>
 </script>
 
@@ -194,19 +228,17 @@
 <div class="form-group">
   <label class="control-label col-lg-2" for="inputName">Name</label>
   <div class="col-lg-10">
-    {{view Ember.TextField id="inputName" classNames="form-control"}}
+  	{{input class="form-control" value=name}}
   </div>
-</div>
-<div class="form-group">
   <label class="control-label col-lg-2" for="textareaDescription">Description</label>
   <div class="col-lg-10">
-    {{view Ember.TextArea classNames="form-control" id="textareaDescription"}}
+  	{{textarea class="form-control" value=description}}
   </div>
 </div>
 </div>
 </script>
 
-<script type="text/x-handlebars" id="new">
+<script type="text/x-handlebars" id="usernew">
 <div class="new">
 <form class="form-horizontal" role="form">
 <fieldset>
@@ -215,7 +247,7 @@
 </fieldset>
 </form>
 <div class="btn-group">
-  <button class="btn btn-large btn-primary">Create</button>
+  <button class="btn btn-large btn-primary" {{action 'create' this}}>Create</button>
   <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
 </div>
 </div>

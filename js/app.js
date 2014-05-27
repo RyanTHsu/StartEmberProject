@@ -14,19 +14,23 @@ App.Router.reopen({
 
 App.Router.map(function() {
     // list of all registered users
-    this.resource('users', {
-        path: '/users'
+    this.resource('users', function() {
+        // edit an existing user
+        this.route('edit', {path: '/:user_id' });
     });
-    this.resource('new', {
-        path: 'user/new'
-    });
-    // view an existing user account
+
     this.resource('user', {
-        path: '/user/:id'
+        path: 'user/:id'
     }, function() {
         // edit an existing user
         this.route('edit');
     });
+    
+    this.resource('usernew', {
+        path: 'user/new'
+    });
+    // view an existing user account
+    
 
     this.resource('roles');
     this.resource('groups');
@@ -46,7 +50,7 @@ Route
 App.ApplicationRoute = Ember.Route.extend({
     actions: {
         goToNewUser: function() {
-            this.transitionTo('new');
+            this.transitionTo('usernew');
         },
         goToUser: function(model) {
             this.transitionTo('user', model);
@@ -56,7 +60,7 @@ App.ApplicationRoute = Ember.Route.extend({
 });
 
 App.IndexRoute = Ember.Route.extend({
-    beforeModel: function(transition) {
+    Model: function(transition) {
         // redirect root
         this.transitionTo('/');
     }
@@ -74,35 +78,81 @@ App.UserRoute = Ember.Route.extend({
     }
 });
 
-App.NewRoute = Ember.Route.extend({
-    actions: {
-        create: function() {
-            // Get the todo title set by the "New Todo" text field
-            var title = this.get('newTitle');
-            if (!title.trim()) {
-                return;
+App.UsernewRoute = Ember.Route.extend({
+    model: function(){
+        var obj = Ember.Object.extend(Ember.Copyable, {
+            id: null,
+            name: null,
+            description: null,
+
+            init: function() {
+                /*if (Em.isNone(this.store.find('user'))) {
+                  throw new Error(Ember.String.fmt("%@ has to implement storageKey property", [this]));
+                }*/
+
+                //if (Em.isNone(this.store.find('user', 1))){
+                    // guid is null when item is being created
+                    // set the guid for this item to new guid
+                    /*this.store.createRecord('user', {
+                        id: this.createGUID()
+                    });*/
+                    this.set('id', this.createGUID());
+                //}
+            },
+
+            createGUID: function() {
+                var s4 = function() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                }
+
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4();
+                
+            },
+
+            copy: function() {
+                // copy method is used by the PhotoEditRoute to create a clone of the model
+                // we create a clone to preserve the original incase Cancel button is clicked
+                return Em.run(this.constructor, 'create', this.serialize());
+            },
+
+            serialize: function() {
+                return this.getProperties(["id", "name", "description"]);
             }
-
-            // Create the new Todo model
-            var user = this.store.createRecord('user', {
-                name: name,
-                isCompleted: false
-            });
-
-            // Clear the "New Todo" text field
-            this.set('newTitle', '');
-
-            // Save the new model
-            user.save();
-            this.transitionTo('users');
-        }
-
-        cancel: function() {
-            this.transitionTo('users');
-        }
+        });
+        
+        return obj.create();
     }
+
+    // reuse the user/edit template associated with the usersCreateController
+    /*renderTemplate: function(){
+        this.render('users.edit', {
+          controller: 'usersCreate'
+        });
+    }*/
 });
 
+App.UserEditRoute = Ember.Route.extend({
+    model: function(){
+        return this.modelFor('user');
+    },
+
+    /*renderTemplate: function() {
+        this.render('user.edit',{into:'application'});
+    }*/
+});
+
+App.UsersEditRoute = Ember.Route.extend({
+    model: function(param){
+        return this.store.find('user', param.user_id);
+    },
+
+    renderTemplate: function() {
+        this.render('users.edit',{into:'application'});
+    }
+});
 
 /*var users = [{
         id: '1',
@@ -189,13 +239,130 @@ Controller
 */
 
 App.UsersController = Ember.ArrayController.extend({
-    contentBinding: 'user'
+    //contentBinding: 'user'
+    deleteMode: false,
+
+    sortProperties: ['name'],
+    sortAscending: true,
+    item: null,
+    actions: {
+        edit: function(model){
+          this.transitionToRoute('users.edit', model);
+        },
+
+        delete: function(model){
+            $('#dialog1').modal('show');
+
+            //this.toggleProperty('deleteMode');
+            this.set('item', model);
+            //this.set('deleteMode', true);
+            // this tells Ember-Data to delete the current user
+            //model.deleteRecord();
+            //model.save();
+            // then transition to the users route
+            //this.transitionToRoute('users');
+        },
+
+        cancelDelete: function(){
+          // set deleteMode back to false
+          //this.set('deleteMode', false);
+          $('#dialog1').modal('hide');
+        },
+
+        confirmDelete: function(model){
+          // this tells Ember-Data to delete the current user
+          this.get('item').deleteRecord();
+          this.get('item').save();
+          // and then go to the users route
+          //this.transitionToRoute('users');
+          // set deleteMode back to false
+         // this.set('deleteMode', false);
+          $('#dialog1').modal('hide');
+        }
+    }
 });
 
+App.UserController = Ember.ObjectController.extend({
+    actions: {
+        edit: function(){
+          this.transitionToRoute('user.edit');
+        }
+    }
+});
+
+App.UsersEditController = Ember.ObjectController.extend({
+    //contentBinding: 'user'
+    actions: {
+        update: function(model){
+            model.save();
+            this.transitionToRoute("/users");
+        },
+
+        save: function(){
+            var user = this.get('model');
+            // this will tell Ember-Data to save/persist the new record
+            user.save();
+            // then transition to the current user
+            this.transitionToRoute('users');
+        },
+
+        cancel: function(model){
+            //Ember.run(model, "destroy" );
+            //this.storage.refresh('user');
+            this.transitionToRoute('/users');
+        }
+    }
+});
 
 App.UserEditController = Ember.ObjectController.extend({
-    needs: ['user']
-}); * /
+    needs: ['user'],
+    update: function(model){
+            model.save();
+            this.transitionTo("users");
+    },
+
+    cancel: function(){
+            //Ember.run(model, "destroy" );
+            //this.storage.refresh('user');
+            this.transitionToRoute('users');
+    }
+});
+
+App.UsernewController = Ember.ObjectController.extend({
+    actions: {
+        create: function(model) {
+            // just before saving, we set the creationDate
+            //this.get('model').set('creationDate', new Date());
+
+            // create a record and save it to the store
+            var newUser = this.store.createRecord('user', model);
+            newUser.save();
+
+            // Get the todo title set by the "New Todo" text field
+            /*var title = this.get('newTitle');
+            if (!title.trim()) {
+                return;
+            }*/
+
+            // Create the new Todo model
+            /*var user = this.store.createRecord('user', {
+                name: name,
+                isCompleted: false
+            });*/
+
+            // Clear the "New Todo" text field
+            //this.set('newTitle', '');
+
+            // Save the new model
+            //user.save();
+            this.transitionTo('users');
+        },
+
+        cancel: function() {
+            this.transitionTo('users');
+        }
+    }
+});
 
 $(function() {
     $('.list-group-item').css('background', '#F8F8F8');

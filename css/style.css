@@ -98,6 +98,11 @@ body {
 
 .icon-std-size{
   font-size: 20px;
+  cursor: pointer;
+}
+
+.red {
+  color: red;
 }
 
 /*.divider {
