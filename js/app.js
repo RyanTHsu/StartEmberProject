@@ -16,9 +16,9 @@ App.Router.map(function() {
     // list of all registered users
     this.resource('users', function() {
         // edit an existing user
-        this.route('edit', {
+        /*this.route('edit', {
             path: '/:user_id'
-        });
+        });*/
     });
 
     this.resource('user', {
@@ -369,8 +369,8 @@ App.UsernewController = Ember.ObjectController.extend({
 });
 
 $(function() {
-    $('.list-group-item').css('background', '#F8F8F8');
-
+    //$('.list-group-item').css('background', '#F8F8F8');
+    //$('.list-group > li > a').css('color', '#6495ED');
     $('.list-group-item').parent().children('div').collapse('hide');
 
     $('.list-group-item').click(function() {
@@ -379,12 +379,22 @@ $(function() {
         $(item_id).collapse('toggle');
     });
 
+    $('.list-group > li > a').click(function() {
+        /*var color = window.getComputedStyle(
+                document.querySelector('.list-group > li > a'), ':hover'
+                ).getPropertyValue('color');*/
+
+        $('.list-group > li > a').removeClass('darkblue');
+        $(this).addClass('darkblue');
+    });
+
     $('.list-group > li').click(function() {
         $('.list-group > li').css('background', '#ffffff');
+        $('.list-group > li').css('color', '#F8F8F8');
         $(this).css('background', '#f2f2f2');
+        //$(this).child().css('color', '#191970');
         //var color = $(this).css('color');
         //$('.list-group > li').removeClass('active');
-        $(this).addClass('active');
         $('.list-group-item').css('background', '#F8F8F8');
         $('.list-group-item').css('color', '#000000');
         $(this).parent().parent().prev('a').css('background', '#6495ED');

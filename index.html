@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="js/lib/bootstrap/dist/css/bootstrap-theme.min.css">
   <!--<link rel="stylesheet" href="dist/bootstrap/css/bootstrap.min.css">-->
   <!--<link rel="stylesheet" href="dist/bootstrap/css/bootstrap-responsive.min.css">-->
-  <link rel="stylesheet" href="js/lib/emberui/dist/emberui.css">
-  <link rel="stylesheet" href="js/lib/emberui/dist/default-theme.css">
+  <!--<link rel="stylesheet" href="js/lib/emberui/dist/emberui.css">-->
+  <!--<link rel="stylesheet" href="js/lib/emberui/dist/default-theme.css">-->
   <script src="js/lib/modernizr/modernizr.js"></script>
 </head>
 <body>
@@ -21,10 +21,10 @@
 	<div class="header">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
-		<div class="navbar-header">
-		    <a class="navbar-brand" href="#">Ryan&rsquo;s Ember</a>
-		</div>
-
+			<div class="navbar-header">
+			    <a class="navbar-brand" href="#">Ryan&rsquo;s Ember</a>
+			</div>
+		<div>
 	  	<div class="btn-group nav pull-right" style="padding-top:7px;">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     Sign Up <span class="caret"></span>
@@ -67,22 +67,21 @@
           </li>
         </ul>
         <div class="nav divider-vertical pull-right"></div>
-        <ul class="nav pull-right">
-		  		<li>
-		  			<p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">SomeOne</a></p>
-		  		</li>
-		</ul>
+        <div class="nav pull-right">	
+		  	<p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">SomeOne</a></p>
+		</div>
+		</div>
 	</div>
 	</nav>
   	</div>
 
   	<div class="container-fluid">
     <div class="row">
-   	<div class="col-md-3" id="leftCol">
+   	<div class="col-xs-3" id="leftCol">
     	{{post-summary}}
 	</div>
 	<div class="line-separator"></div>
-    <div class="col-md-9" id="rightCol">
+    <div class="col-xs-9" id="rightCol">
     	{{outlet}}
     </div>
     </div>      
@@ -90,6 +89,7 @@
 </script>
 
 <script type="text/x-handlebars" id="components/post-summary">
+<div>
 	<div class="list-group" id="accordion">
 		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
 		User, Role, Group
@@ -127,7 +127,8 @@
 		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
 		    </ul>
 		</div>
-	</div>	
+	</div>
+</div>	
 </script>
 
 <script type="text/x-handlebars" id="users">
@@ -141,10 +142,10 @@
   </tr>
   {{#each}}
     <tr>
-    <td {{action 'goToUser' this}}><a href="#">{{name}}</a></td>
-    <td {{action 'goToUser' this}}>{{description}}</td>
+    <td>{{name}}</td>
+    <td>{{description}}</td>
       <td>
-        <span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'edit' this}}></span>&nbsp;
+        <span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'goToUser' this}}></span>&nbsp;
         <span class="remove glyphicon glyphicon-remove-circle icon-std-size red" data-toggle="modal" data-target="#dialog1" {{action 'delete' this}}></span>
       </td>
     </tr>
@@ -199,10 +200,8 @@
     {{partial 'form'}}
   </fieldset>
 </form>
-<div class="btn-group">
-  <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>
+  <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>&nbsp;
   <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
-</div>
 </div>
 </script>
 
@@ -248,10 +247,8 @@
     {{partial 'form'}}
 </fieldset>
 </form>
-<div class="btn-group">
-  <button class="btn btn-large btn-primary" {{action 'create' this}}>Create</button>
+  <button class="btn btn-large btn-primary" {{action 'create' this}}>Create</button>&nbsp;
   <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
-</div>
 </div>
 </script>
 
