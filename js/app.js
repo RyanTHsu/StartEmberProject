@@ -21,6 +21,7 @@ App.Router.map(function() {
         });*/
     });
 
+    // view an existing user account
     this.resource('user', {
         path: 'user/:id'
     }, function() {
@@ -28,12 +29,11 @@ App.Router.map(function() {
         this.route('edit');
     });
 
+    //create an user
     this.resource('usernew', {
         path: 'user/new'
     });
-    // view an existing user account
-
-
+    
     this.resource('roles');
     this.resource('groups');
     this.resource('angular');
@@ -157,6 +157,7 @@ App.UsersEditRoute = Ember.Route.extend({
         });
     }
 });
+
 
 /*var users = [{
         id: '1',
@@ -340,7 +341,20 @@ App.UsernewController = Ember.ObjectController.extend({
 
             // create a record and save it to the store
             var newUser = this.store.createRecord('user', model);
-            newUser.save();
+
+            var self = this;
+
+            var onSuccess = function() {
+              self.transitionToRoute('users');
+            };
+
+            var onFail = function() {
+              // deal with the failure here
+            };
+
+            newUser.save().then(onSuccess, onFail);
+            
+            //newUser.save();
 
             // Get the todo title set by the "New Todo" text field
             /*var title = this.get('newTitle');
@@ -359,7 +373,7 @@ App.UsernewController = Ember.ObjectController.extend({
 
             // Save the new model
             //user.save();
-            this.transitionTo('users');
+            //this.transitionTo('users');
         },
 
         cancel: function() {
