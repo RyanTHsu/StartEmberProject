@@ -175,20 +175,13 @@
 
 <script type="text/x-handlebars" id="user">
 <div class="user">
-<div class="container-fluid">
-  <div class="row preview">
-    <div class="col-md-8">
-    
-      <h2>{{name}}<button class="pull-right btn btn-large btn-primary" {{action 'edit'}}>Edit</button></h2>
-      <p>{{description}}</p>  
-    </div>
-  </div>
-  <br>
-  <br>
-  	<div>
+    <h2>{{name}}<button class="pull-right btn btn-large btn-primary" {{action 'edit'}}>Edit</button></h2>
+    <p>{{description}}</p>
+    <br>
+    <br>
+  	
     	{{outlet}}
-	</div>
-</div>
+   
 </div>
 </script>
 
