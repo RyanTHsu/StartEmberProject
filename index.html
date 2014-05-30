@@ -266,27 +266,133 @@
 </div>
 </script>
 
+<script type="text/x-handlebars" id="roles">
+<h3>Roles <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewRole'}}>New role</button></h3>
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  {{#each}}
+    <tr>
+    <td>{{name}}</td>
+    <td>{{description}}</td>
+      <td>
+        <span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'goToRole' this}}></span>&nbsp;
+        <span class="remove glyphicon glyphicon-remove-circle icon-std-size red" data-toggle="modal" data-target="#dialog1" {{action 'delete' this}}></span>
+      </td>
+    </tr>
+    
+  {{/each}}
+  </tbody>
+</table>
+<div id="dialog1" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Delete Item?</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p>Are you sure deleting this item permanantly?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" {{action "cancelDelete"}}>No</button>
+		        <button type="button" class="btn btn-primary" {{action "confirmDelete"}}>Yes</button>
+		      </div>
+		    </div>
+		</div>
+</div>
+</script>
+
+<script type="text/x-handlebars" id="role">
+<div class="role">
+	<div class="model-title">
+    <h2>{{name}}
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <button class="btn btn-large btn-primary" {{action 'edit'}}>Edit</button>
+    <div class="btn-group">
+    <button class="btn btn-large btn-default" {{action 'addMember'}}>Add members</button>
+    </div>
+    </h2>
+	</div>
+    <p>{{description}}</p>
+    <p>Members:</p>
+    <ul>
+    {{#each user in this.users}}
+    <li>{{user.name}}</li>
+    {{/each}}
+    </ul>
+    </p>
+    <br>
+    <br>
+  	
+    	{{outlet}}
+   
+</div>
+</script>
+
+<script type="text/x-handlebars" id="role/edit">
+<div class="edit">
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Edit role</legend>
+    {{partial 'form'}}
+  </fieldset>
+</form>
+  <button class="btn btn-large btn-primary" {{action 'update' this}}>Update</button>&nbsp;
+  <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
+</div>
+</script>
 
 
-<script type="text/x-handlebars" id="create">
+<script type="text/x-handlebars" id="rolenew">
 <div class="new">
 <form class="form-horizontal" role="form">
 <fieldset>
-    <legend>New user</legend>
+    <legend>New role</legend>
     {{partial 'form'}}
 </fieldset>
 </form>
-  <button class="btn btn-large btn-primary">Create</button>&nbsp;
-  <button class="btn btn-large btn-danger">Cancel</button>
+  <button class="btn btn-large btn-primary" {{action 'create' this}}>Create</button>&nbsp;
+  <button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
 </div>
 </script>
 
-<script type="text/x-handlebars" id="roles">
-<div class="angular">
-<p>This is the default page of roles</p>
+<script type="text/x-handlebars" id="role/addmember">
+<div>
+<form class="form-horizontal">
+  <fieldset>
+  <h3>Add Members</h3>
+  <p>Users Count: {{usersCount}}</p>
+    <table class="table table-striped">
+    <tbody>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+
+      {{#each}}
+      <tr>
+        <td style="text-align: center;">{{input type="checkbox" checked=isMember}}</td>
+        <td>{{name}}</td>
+        <td>{{description}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    </table>
+  </fieldset>
+</form>
+
+<button class="btn btn-large btn-primary" {{action 'update'}}>Update</button>&nbsp;
+<button class="btn btn-large btn-danger" {{action 'cancel'}}>Cancel</button>
 </div>
 </script>
-
 
 <script type="text/x-handlebars" id="groups">
 <div class="backbone">
@@ -314,6 +420,8 @@
 <script src="js/app.js"></script>
 <script src="js/models/user.js"></script>
 <script src="js/models/role.js"></script>
+<script src="js/routes/route.js"></script>
+<script src="js/controllers/controller.js"></script>
 <!--<script src="js/lib/emberui/dist/globals/main.js"></script>-->
 <!--<script src="js/lib/ember-addons.bs_for_ember/dist/js/bs-core.min.js"></script>-->
 <!--<script src="js/lib/ember-addons.bs_for_ember/dist/js/bs-alert.min.js"></script>-->
@@ -402,10 +510,7 @@
 
 
 
-
 <!--
-
-
 -->
 
  <!--<script type="text/x-handlebars">

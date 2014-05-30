@@ -9,7 +9,7 @@ body {
 #leftCol{
   float: left;
   width: 23%;
-  height: 89%;
+  height: 570px;
   background-color: #f2f2f2;
   border-radius: 10px;
   padding: 18px;
@@ -19,7 +19,7 @@ body {
 
 #rightCol {
   width: 77%;
-  height: 89%;
+  height: 570px;
   float: right;
   min-width: 350px;
   padding-left: 27px;

@@ -1,18 +1,22 @@
 App.Role = DS.Model.extend({
     name: DS.attr('string'),
-    description: DS.attr('string')
+    description: DS.attr('string'),
+    users: DS.hasMany('user', {async: true})
 });
 
 App.Role.FIXTURES = [{
     id: '1',
-    name: "David Chen",
-    description: "dc@abc.com"
+    name: "Admin",
+    description: "This is role of admin",
+    users: ['1', '2']
 }, {
     id: '2',
-    name: "Roger Lin",
-    description: "roger@abc.com"
+    name: "Customer",
+    description: "This is role of customer",
+    users: ['2', '3']
 }, {
     id: '3',
-    name: "Rita Wang",
-    description: "rita@abc.com"
+    name: "Trinity Super User",
+    description: "This is Trinity super user",
+    users: ['3']
 }];
