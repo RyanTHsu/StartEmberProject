@@ -1,6 +1,6 @@
 App.User = DS.Model.extend({
     name: DS.attr('string'),
-    description: DS.attr('string'),
+    description: DS.attr('string')
     //roles: DS.hasMany('role', {async: true})
 });
 

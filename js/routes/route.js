@@ -176,19 +176,17 @@ App.RolenewRoute = Ember.Route.extend({
 App.RoleEditRoute = Ember.Route.extend({
     model: function() {
         return this.modelFor('role');
+    },
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
     }
 });
 
 App.RoleAddmemberRoute = Ember.Route.extend({
-    
     model: function() {
-
-        //var selectedUser = this.modelFor('role').users;
-        //return this.modelFor('role');
-        //this.set('items', selectedUser);
-        //selectedUser.mapBy('name');
-        //var userlist = this.store.find('user');
-
+        return this.modelFor('role');
         /*var fileterList = this.store.filter('user', function(user){
             if(user.get('name')) {return false;}
         });*/
@@ -206,7 +204,13 @@ App.RoleAddmemberRoute = Ember.Route.extend({
         // Kick off a query to the server for all posts that
         // the user has favorited. As results from the query are
         // returned from the server, they will also begin to appear.
+    },
 
+    userslist: function() {
         return this.store.find('user');
+    },
+
+    setupController: function(controller, model) {
+        controller.set('userslist', this.userslist());
     }
 });

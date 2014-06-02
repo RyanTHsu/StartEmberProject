@@ -33,7 +33,7 @@ App.Router.map(function() {
     this.resource('usernew', {
         path: 'user/new'
     });
-    
+
     // list of all roles
     this.resource('roles');
 
@@ -58,6 +58,7 @@ App.Router.map(function() {
     this.resource('item2');
 });
 
+App.set('selectedNodes', Em.A());
 
 $(function() {
     //$('.list-group-item').css('background', '#F8F8F8');

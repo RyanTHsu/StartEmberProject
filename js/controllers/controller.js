@@ -100,15 +100,15 @@ App.UsernewController = Ember.ObjectController.extend({
             var self = this;
 
             var onSuccess = function() {
-              self.transitionToRoute('users');
+                self.transitionToRoute('users');
             };
 
             var onFail = function() {
-              // deal with the failure here
+                // deal with the failure here
             };
 
             newUser.save().then(onSuccess, onFail);
-            
+
             //newUser.save();
 
             // Get the todo title set by the "New Todo" text field
@@ -174,14 +174,13 @@ App.RoleController = Ember.ObjectController.extend({
             this.transitionToRoute('role.edit');
         },
 
-        addMember: function(){
+        addMember: function() {
             this.transitionToRoute('role.addmember');
         }
     }
 });
 
 App.RoleEditController = Ember.ObjectController.extend({
-    needs: ['role'],
     update: function(model) {
         model.save();
         this.transitionTo("roles");
@@ -193,24 +192,58 @@ App.RoleEditController = Ember.ObjectController.extend({
 });
 
 App.RoleAddmemberController = Ember.ArrayController.extend({
-    needs: ['role', 'user'],
-
+    member: null,
     isMember: false,
-    
-    filterList: function(){
-    },
 
-    usersCount: function(){
+    /*memberDidChange: function() {
+        this.set('isMember', App.get('selectedNodes').contains(this.get('member').name));
+    }.observes('member'),*/
+
+    usersCount: function() {
         return this.get('model.length');
     }.property('@each'),
 
-    update: function() {
-        //this.transitionTo("roles");
+    userslist: function() {
+        return this.store.find('user');
     },
 
-    cancel: function() {
-        this.transitionToRoute('roles');
-    }
+    actions: {
+        click: function(model) {
+            this.set('member', model);
+            this.toggleProperty('isMember');
+        },
+
+        update: function() {
+            this.get('model').save();
+            this.transitionTo("roles");
+        },
+
+        cancel: function() {
+            this.transitionToRoute('roles');
+        }
+    },
+
+    isMemberDidChange: function() {
+        //alert("isMember= " + this.get('isMember'));
+        var selectedNodes = this.get('model');
+        var tempArr = [];
+        //alert("selectedNodes= " + selectedNodes);
+        var node = this.get('member');
+        //alert("node= " + node);
+        if (this.get('isMember')) {
+            if (!tempArr.contains(node.get('id'))) {
+                tempArr.pushObject(node.get('id'));
+                alert("node= " + node.get('name'));
+            }
+        } else {
+            tempArr.removeObject(node.get('id'));
+        }
+
+        //selectedNodes.set('users', tempArr);
+        //selectedNodes.changedAttributes();
+        alert("selectedNodes= " + selectedNodes);
+
+    }.observes('isMember')
 });
 
 App.RolenewController = Ember.ObjectController.extend({
@@ -225,15 +258,15 @@ App.RolenewController = Ember.ObjectController.extend({
             var self = this;
 
             var onSuccess = function() {
-              self.transitionToRoute('roles');
+                self.transitionToRoute('roles');
             };
 
             var onFail = function() {
-              // deal with the failure here
+                // deal with the failure here
             };
 
             newRole.save().then(onSuccess, onFail);
-            
+
             // Get the todo title set by the "New Todo" text field
             /*var title = this.get('newTitle');
             if (!title.trim()) {
@@ -258,4 +291,24 @@ App.RolenewController = Ember.ObjectController.extend({
             this.transitionTo('roles');
         }
     }
+});
+
+App.CheckboxItemController = Ember.ObjectController.extend({
+    selected: function() {
+        var activity = this.get('content');
+        var children = this.get('parentController.elementsOfProperty');
+        return children.contains(activity);
+    }.property(),
+    label: function() {
+        return this.get('model.' + this.get('parentController.labelPath'));
+    }.property(),
+    selectedChanged: function() {
+        var activity = this.get('content');
+        var children = this.get('parentController.elementsOfProperty');
+        if (this.get('selected')) {
+            children.pushObject(activity);
+        } else {
+            children.removeObject(activity);
+        }
+    }.observes('selected')
 });

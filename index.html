@@ -377,11 +377,13 @@
         <th>Description</th>
       </tr>
 
-      {{#each}}
+      {{#each userslist}}
       <tr>
-        <td style="text-align: center;">{{input type="checkbox" checked=isMember}}</td>
+      <td style="text-align: center;"><input type="checkbox" checked="isMember" /></td>
         <td>{{name}}</td>
         <td>{{description}}</td>
+        <td><span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'click' this}}></span>
+        </td>
       </tr>
       {{/each}}
     </tbody>
