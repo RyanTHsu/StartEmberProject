@@ -181,8 +181,8 @@ App.RoleController = Ember.ObjectController.extend({
 });
 
 App.RoleEditController = Ember.ObjectController.extend({
-    update: function(model) {
-        model.save();
+    update: function() {
+        this.get('model').save();
         this.transitionTo("roles");
     },
 
@@ -191,57 +191,49 @@ App.RoleEditController = Ember.ObjectController.extend({
     }
 });
 
-App.RoleAddmemberController = Ember.ArrayController.extend({
+App.RoleAddmemberController = Ember.ObjectController.extend({
     member: null,
     isMember: false,
+    userslist: [],
 
     /*memberDidChange: function() {
         this.set('isMember', App.get('selectedNodes').contains(this.get('member').name));
     }.observes('member'),*/
 
-    usersCount: function() {
-        return this.get('model.length');
-    }.property('@each'),
-
-    userslist: function() {
-        return this.store.find('user');
-    },
-
-    actions: {
-        click: function(model) {
+    click: function(model) {
             this.set('member', model);
             this.toggleProperty('isMember');
-        },
+    },
 
-        update: function() {
+    update: function() {
             this.get('model').save();
             this.transitionTo("roles");
-        },
+    },
 
-        cancel: function() {
+    cancel: function() {
             this.transitionToRoute('roles');
-        }
     },
 
     isMemberDidChange: function() {
         //alert("isMember= " + this.get('isMember'));
-        var selectedNodes = this.get('model');
+        var selectedNodes = this.get('model.users');
+        alert("selectedNodes= " + selectedNodes);
         var tempArr = [];
         //alert("selectedNodes= " + selectedNodes);
         var node = this.get('member');
         //alert("node= " + node);
         if (this.get('isMember')) {
-            if (!tempArr.contains(node.get('id'))) {
-                tempArr.pushObject(node.get('id'));
+            if (!selectedNodes.contains(node)) {
+                selectedNodes.pushObject(node);
                 alert("node= " + node.get('name'));
             }
         } else {
-            tempArr.removeObject(node.get('id'));
+            selectedNodes.removeObject(node);
         }
 
         //selectedNodes.set('users', tempArr);
         //selectedNodes.changedAttributes();
-        alert("selectedNodes= " + selectedNodes);
+        
 
     }.observes('isMember')
 });

@@ -8,8 +8,8 @@ body {
 
 #leftCol{
   float: left;
-  width: 20%;
-  height: 520px;
+  width: 23%;
+  height: 570px;
   background-color: #f2f2f2;
   border-radius: 10px;
   padding: 18px;
@@ -18,11 +18,11 @@ body {
 }
 
 #rightCol {
-  width: 80%;
-  height: 520px;
+  width: 77%;
+  height: 570px;
   float: right;
   min-width: 350px;
-  padding-left: 40px;
+  padding-left: 30px;
 }
 
 .col-margin-top {
@@ -32,7 +32,7 @@ body {
 
 
 .container{
-  width: 1320px !important;
+  width: 1000px !important;
   margin-left: 20px !important;
 }
 

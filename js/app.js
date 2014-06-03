@@ -12,6 +12,32 @@ App.Router.reopen({
     rootURL: '/blog/'
 });
 
+
+
+App.ArrayTransform = DS.Transform.extend({
+  deserialize: function(serialized) {
+    return (Ember.typeOf(serialized) == "array")
+        ? serialized 
+        : [];
+  },
+
+  serialize: function(deserialized) {
+    var type = Ember.typeOf(deserialized);
+    if (type == 'array') {
+        return deserialized
+    } else if (type == 'string') {
+        return deserialized.split(',').map(function(item) {
+            return jQuery.trim(item);
+        });
+    } else {
+        return [];
+    }
+  }
+});
+
+
+App.register("transform:array", App.ArrayTransform);
+
 App.Router.map(function() {
     // list of all registered users
     this.resource('users', function() {

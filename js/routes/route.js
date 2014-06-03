@@ -211,6 +211,10 @@ App.RoleAddmemberRoute = Ember.Route.extend({
     },
 
     setupController: function(controller, model) {
-        controller.set('userslist', this.userslist());
+        this._super(controller, model);
+        controller.set('model', model);
+        this.controllerFor('role.addmember').set('usersCount', model.get('users').length);
+        this.controllerFor('role.addmember').set('userslist', this.store.find('user'));
+        //controller.set('userslist', this.userslist());
     }
 });
