@@ -310,21 +310,25 @@
 <script type="text/x-handlebars" id="role">
 <div class="role">
 	<div class="model-title">
-    <h2>{{name}}
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <button class="btn btn-large btn-primary" {{action 'edit'}}>Edit</button>
-    <div class="btn-group">
-    <button class="btn btn-large btn-default" {{action 'addMember'}}>Add members</button>
-    </div>
-    </h2>
+  <h2>{{name}}
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <button class="btn btn-large btn-primary" {{action 'edit'}}>Edit</button>
+  <button class="btn btn-large btn-default" {{action 'addMember'}}>Add members</button>
+  </h2>
 	</div>
     <p>{{description}}</p>
-    <p>Members:</p>
-    <ul>
+    <br>
+    <h4>Members:</h4>
+    <ul class="list-inline">
     {{#each user in this.users}}
-    <li>{{user.name}}</li>
+    <li><span class="label label-default">{{user.name}}
+    {{#if showDelete}}
+    <span class="glyphicon glyphicon-remove red icon-std" {{action 'delete' user}}></span>
+    {{/if}}
+    </span>
+    </li>
     {{/each}}
     </ul>
     </p>
@@ -372,17 +376,15 @@
     <table class="table table-striped">
     <tbody>
       <tr>
-        <th></th>
         <th>Name</th>
         <th>Description</th>
       </tr>
 
       {{#each userslist}}
       <tr>
-      <td style="text-align: center;"><input type="checkbox" checked="isMember" /></td>
         <td>{{name}}</td>
         <td>{{description}}</td>
-        <td><span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'click' this}}></span>
+        <td><span class="glyphicon glyphicon-plus icon-std-size" {{action 'addItem' this}}></span>
         </td>
       </tr>
       {{/each}}

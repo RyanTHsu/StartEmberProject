@@ -107,6 +107,10 @@ body {
   cursor: pointer;
 }
 
+.icon-std {
+  cursor: pointer;
+}
+
 .nav-position {
   margin-right: 10px;
   margin-top: 3px;

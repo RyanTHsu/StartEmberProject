@@ -15,7 +15,19 @@ App.Router.reopen({
 
 
 App.ArrayTransform = DS.Transform.extend({
-  deserialize: function(serialized) {
+    serialize: function(value) {
+        if (Em.typeOf(value) === 'array') {
+          return value;
+        } else {
+          return [];
+        }
+    },
+
+    deserialize: function(value) {
+        return value;
+    }
+
+  /*deserialize: function(serialized) {
     return (Ember.typeOf(serialized) == "array")
         ? serialized 
         : [];
@@ -32,7 +44,7 @@ App.ArrayTransform = DS.Transform.extend({
     } else {
         return [];
     }
-  }
+  }*/
 });
 
 

@@ -134,6 +134,7 @@ App.RolenewRoute = Ember.Route.extend({
             id: null,
             name: null,
             description: null,
+            users: null,
 
             init: function() {
                 this.set('id', this.createGUID());
@@ -158,7 +159,7 @@ App.RolenewRoute = Ember.Route.extend({
             },
 
             serialize: function() {
-                return this.getProperties(["id", "name", "description"]);
+                return this.getProperties(["id", "name", "description", "users"]);
             }
         });
 
@@ -206,15 +207,18 @@ App.RoleAddmemberRoute = Ember.Route.extend({
         // returned from the server, they will also begin to appear.
     },
 
-    userslist: function() {
+    userslist: function(){
         return this.store.find('user');
+        //var userlist = this.store.find('user');
+        /*return userlist.filter(function(item, index, self) {
+            if (item.name == 'Kobe Bryant') { return false; }
+        });*/
     },
 
     setupController: function(controller, model) {
         this._super(controller, model);
         controller.set('model', model);
-        this.controllerFor('role.addmember').set('usersCount', model.get('users').length);
-        this.controllerFor('role.addmember').set('userslist', this.store.find('user'));
+        this.controllerFor('role.addmember').set('userslist', this.userslist());
         //controller.set('userslist', this.userslist());
     }
 });

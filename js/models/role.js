@@ -11,6 +11,7 @@ App.Role.FIXTURES = [{
     id: '1',
     name: "Admin",
     description: "This is role of admin",
+    //users: [{ id: '1', name: 'Tom Cruise', description: 'no comment'}]
     users: []
 }, {
     id: '2',

@@ -169,13 +169,25 @@ App.RolesController = Ember.ArrayController.extend({
 
 
 App.RoleController = Ember.ObjectController.extend({
+    showDelete: false,
+    needs: ['roleAddmember'],
+
     actions: {
         edit: function() {
             this.transitionToRoute('role.edit');
         },
 
+        delete: function(item){
+            var selectedNodes = this.get('model.users');
+            var child = this.get('controllers.roleAddmember')
+            selectedNodes.removeObject(item);
+            if(!child.get('userslist').contains(item))
+                child.get('userslist').pushObject(item);
+        },
+
         addMember: function() {
             this.transitionToRoute('role.addmember');
+            this.set('showDelete', true);
         }
     }
 });
@@ -187,53 +199,79 @@ App.RoleEditController = Ember.ObjectController.extend({
     },
 
     cancel: function() {
+        this.get('model').rollback();
         this.transitionToRoute('roles');
     }
 });
 
 App.RoleAddmemberController = Ember.ObjectController.extend({
+    needs: ['role'],
     member: null,
     isMember: false,
     userslist: [],
+
+    init: function(){
+        var parent = this.get('controllers.role');
+
+        /*this.get('userslist').filter(function(item, index, self) {
+            this.get('model.users').forEach(function(node){
+                if(node == item) return false;
+            });
+            //if (this.get('model.users').contains(item)) { return false; }
+        });*/
+    },
 
     /*memberDidChange: function() {
         this.set('isMember', App.get('selectedNodes').contains(this.get('member').name));
     }.observes('member'),*/
 
-    click: function(model) {
-            this.set('member', model);
-            this.toggleProperty('isMember');
+    addItem: function(node) {
+            //this.set('member', model);
+            var selectedNodes = this.get('model.users');
+            //alert("selectedNodes= " + selectedNodes);
+            var tempArr = this.get('userslist');
+
+            if (!selectedNodes.contains(node)) {
+                selectedNodes.pushObject(node);
+                this.get('userslist').removeObject(node);
+                //alert("node= " + node.get('name'));
+            }
+            
     },
 
     update: function() {
             this.get('model').save();
+            var parent = this.get('controllers.role');
+            parent.set('showDelete', false);
             this.transitionTo("roles");
     },
 
     cancel: function() {
+            this.get('model.users').invoke('rollback');
+            this.get('model').rollback();
+            var parent = this.get('controllers.role');
+            parent.set('showDelete', false);
             this.transitionToRoute('roles');
     },
 
     isMemberDidChange: function() {
         //alert("isMember= " + this.get('isMember'));
         var selectedNodes = this.get('model.users');
-        alert("selectedNodes= " + selectedNodes);
-        var tempArr = [];
+        //alert("selectedNodes= " + selectedNodes);
+        var tempArr = this.get('userslist');
         //alert("selectedNodes= " + selectedNodes);
         var node = this.get('member');
         //alert("node= " + node);
         if (this.get('isMember')) {
             if (!selectedNodes.contains(node)) {
                 selectedNodes.pushObject(node);
-                alert("node= " + node.get('name'));
+                this.get('userslist').removeObject(node);
+                //alert("node= " + node.get('name'));
             }
-        } else {
-            selectedNodes.removeObject(node);
+        }else{
+                selectedNodes.removeObject(node);
+                //alert("node= " + node.get('name'));
         }
-
-        //selectedNodes.set('users', tempArr);
-        //selectedNodes.changedAttributes();
-        
 
     }.observes('isMember')
 });
