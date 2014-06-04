@@ -20,7 +20,23 @@ App.User.FIXTURES = [{
     name: "Kobe Bryant",
     description: "kobebryant@abc.com",
     isChecked: false
-}];
+}, {
+    id: '4',
+    name: "David Chen",
+    description: "david@abc.com",
+    isChecked: false
+}, {
+    id: '5',
+    name: "Roger Lin",
+    description: "roger@abc.com",
+    isChecked: false
+}, {
+    id: '6',
+    name: "Rita Wang",
+    description: "ritawang@abc.com",
+    isChecked: false
+},
+];
 
 
 

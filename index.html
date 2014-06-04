@@ -133,7 +133,7 @@
 
 <script type="text/x-handlebars" id="users">
 <h3>Users <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewUser'}}>New user</button></h3>
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <tbody>
   <tr>
     <th>Name</th>
@@ -268,7 +268,7 @@
 
 <script type="text/x-handlebars" id="roles">
 <h3>Roles <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewRole'}}>New role</button></h3>
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <tbody>
   <tr>
     <th>Name</th>
@@ -308,36 +308,50 @@
 </script>
 
 <script type="text/x-handlebars" id="role">
-<div class="role">
-	<div class="model-title">
   <h2>{{name}}
   &nbsp;
   &nbsp;
   &nbsp;
   <button class="btn btn-large btn-primary" {{action 'edit'}}>Edit</button>
-  <button class="btn btn-large btn-default" data-toggle="modal" data-target="#usersModel" {{action 'addMember'}}>Add members</button>
+  <button class="btn btn-large btn-default" data-toggle="modal" data-target="#usersModel" {{action 'addMember'}}>Members</button>
   </h2>
-	</div>
     <p>{{description}}</p>
     <br>
+
     <h4>Members:</h4>
-    <ul class="list-inline">
-    {{#each user in this.users}}
-    <li><span class="label label-default">{{user.name}}
-    {{#if showDelete}}
-    <span class="glyphicon glyphicon-remove red icon-std" {{action 'deleteMember' user}}></span>
-    {{/if}}
-    </span>
-    </li>
-    {{/each}}
-    </ul>
-    </p>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+          <th>Name</th>
+          <th>Description</th>
+          </tr>
+        </thead>
+      </table>
+      <div class="member-space scrollable">
+      <table class="table table-striped table-condensed table-scrollable">
+        <tbody>
+          {{#each user in this.users}}
+          <tr class="member-list">
+            <td>{{user.name}}</td>
+            <td>{{user.description}}</td>
+            <td>
+            <span class="glyphicon glyphicon-remove icon-std icon-delete" {{action 'deleteMember' user}}></span>
+            </td>
+          </tr>
+          {{/each}}
+          
+        </tbody>
+        </table>
+      </div>
+
+      <table class="table table-striped table-condensed">
+          <tfoot>
+          </tfoot>
+      </table>   
     <br>
     <br>
   	
     	{{outlet}}
-   
-</div>
 
   <div class="modal fade" id="usersModel" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -359,7 +373,7 @@
 
                     {{#each userslist}}
                     <tr>
-                      <td>{{input type="checkbox" checked=isChecked class="toggle"}}</td>
+                      <td style="text-align: center">{{input type="checkbox" checked=isChecked class="toggle"}}</td>
                       <td {{bind-attr class="isChecked:completed"}}>{{name}}</td>
                       <td {{bind-attr class="isChecked:completed"}}>{{description}}</td>
                       </td>
@@ -553,7 +567,19 @@
 
 
 
+
+
 <!--
+<ul class="list-inline">
+    {{#each user in this.users}}
+    <li><span class="label label-default">{{user.name}}
+    {{#if showDelete}}
+    <span class="glyphicon glyphicon-remove red icon-std" {{action 'deleteMember' user}}></span>
+    {{/if}}
+    </span>
+    </li>
+    {{/each}}
+    </ul>
 -->
 
  <!--<script type="text/x-handlebars">

@@ -209,21 +209,23 @@ App.RoleController = Ember.ObjectController.extend({
         saveMember: function(){
             var selectedNodes = this.get('userslist').filterBy('isChecked', true);
             var memberlist = this.get('model.users');
-            //memberlist.clear();
+            memberlist.clear();
             selectedNodes.forEach(function(item){
                 if(!memberlist.contains(item)){
                     memberlist.pushObject(item);
                 }
             });
+            this.set('showDelete', false);
             $('#usersModel').modal('hide');
+
         },
 
-        /*deleteMember: function(item){
+        deleteMember: function(item){
             var memberlist = this.get('model.users');
             memberlist.removeObject(item);
             item.set('isChecked', false);
             
-        },*/
+        }
     }
 });
 
