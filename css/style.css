@@ -124,6 +124,12 @@ body {
   color: rgb(42, 100, 150);
 }
 
+
+#user-list .completed {
+  color: #a9a9a9;
+  text-decoration: line-through;
+}
+
 /*.divider {
   margin-top: 9px;
   border-bottom: 1px solid #E6E6FA;

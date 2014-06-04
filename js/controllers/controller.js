@@ -171,6 +171,21 @@ App.RolesController = Ember.ArrayController.extend({
 App.RoleController = Ember.ObjectController.extend({
     showDelete: false,
     needs: ['roleAddmember'],
+    userslist: [],
+
+    isChecked: function(key, value){
+        var model = this.get('userslist');
+
+        if (value === undefined) {
+          // property being used as a getter
+          return model.get('isChecked');
+        } else {
+          // property being used as a setter
+          model.set('isChecked', value);
+          model.save();
+          return value;
+        }
+    }.property('userslist.isChecked'),
 
     actions: {
         edit: function() {
@@ -186,9 +201,29 @@ App.RoleController = Ember.ObjectController.extend({
         },
 
         addMember: function() {
-            this.transitionToRoute('role.addmember');
+            //this.transitionToRoute('role.addmember');
+            $('#usersModel').modal('show');
             this.set('showDelete', true);
-        }
+        },
+
+        saveMember: function(){
+            var selectedNodes = this.get('userslist').filterBy('isChecked', true);
+            var memberlist = this.get('model.users');
+            //memberlist.clear();
+            selectedNodes.forEach(function(item){
+                if(!memberlist.contains(item)){
+                    memberlist.pushObject(item);
+                }
+            });
+            $('#usersModel').modal('hide');
+        },
+
+        /*deleteMember: function(item){
+            var memberlist = this.get('model.users');
+            memberlist.removeObject(item);
+            item.set('isChecked', false);
+            
+        },*/
     }
 });
 

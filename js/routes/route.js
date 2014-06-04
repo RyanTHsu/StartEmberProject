@@ -35,6 +35,7 @@ App.UsernewRoute = Ember.Route.extend({
             id: null,
             name: null,
             description: null,
+            isChecked: false,
 
             init: function() {
                 /*if (Em.isNone(this.store.find('user'))) {
@@ -70,7 +71,7 @@ App.UsernewRoute = Ember.Route.extend({
             },
 
             serialize: function() {
-                return this.getProperties(["id", "name", "description"]);
+                return this.getProperties(["id", "name", "description", "isChecked"]);
             }
         });
 
@@ -125,6 +126,21 @@ App.RolesRoute = Ember.Route.extend({
 App.RoleRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('role', params.id);
+    },
+
+    userslist: function(){
+        return this.store.find('user');
+        //var userlist = this.store.find('user');
+        /*return userlist.filter(function(item, index, self) {
+            if (item.name == 'Kobe Bryant') { return false; }
+        });*/
+    },
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
+        this.controllerFor('role').set('userslist', this.userslist());
+        //controller.set('userslist', this.userslist());
     }
 });
 

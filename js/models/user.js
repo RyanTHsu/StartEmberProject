@@ -1,6 +1,7 @@
 App.User = DS.Model.extend({
     name: DS.attr('string'),
-    description: DS.attr('string')
+    description: DS.attr('string'),
+    isChecked: DS.attr('boolean')
     //roles: DS.hasMany('role', {async: true})
 });
 
@@ -8,14 +9,17 @@ App.User.FIXTURES = [{
     id: '1',
     name: "Tom Cruise",
     description: "tomcruise@abc.com",
+    isChecked: false
 }, {
     id: '2',
     name: "Barrack Obama",
     description: "barrackobama@abc.com",
+    isChecked: false
 }, {
     id: '3',
     name: "Kobe Bryant",
     description: "kobebryant@abc.com",
+    isChecked: false
 }];
 
 

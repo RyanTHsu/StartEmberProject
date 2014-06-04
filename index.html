@@ -315,7 +315,7 @@
   &nbsp;
   &nbsp;
   <button class="btn btn-large btn-primary" {{action 'edit'}}>Edit</button>
-  <button class="btn btn-large btn-default" {{action 'addMember'}}>Add members</button>
+  <button class="btn btn-large btn-default" data-toggle="modal" data-target="#usersModel" {{action 'addMember'}}>Add members</button>
   </h2>
 	</div>
     <p>{{description}}</p>
@@ -325,7 +325,7 @@
     {{#each user in this.users}}
     <li><span class="label label-default">{{user.name}}
     {{#if showDelete}}
-    <span class="glyphicon glyphicon-remove red icon-std" {{action 'delete' user}}></span>
+    <span class="glyphicon glyphicon-remove red icon-std" {{action 'deleteMember' user}}></span>
     {{/if}}
     </span>
     </li>
@@ -338,6 +338,45 @@
     	{{outlet}}
    
 </div>
+
+  <div class="modal fade" id="usersModel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+           <h4 class="modal-title">Add Members</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+              <fieldset>
+                  <table id="user-list" class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+
+                    {{#each userslist}}
+                    <tr>
+                      <td>{{input type="checkbox" checked=isChecked class="toggle"}}</td>
+                      <td {{bind-attr class="isChecked:completed"}}>{{name}}</td>
+                      <td {{bind-attr class="isChecked:completed"}}>{{description}}</td>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                  </table>
+              </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+        <button type="button" class="btn btn-primary" {{action 'saveMember'}}>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="role/edit">
