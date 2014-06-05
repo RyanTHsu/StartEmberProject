@@ -91,42 +91,64 @@
 <script type="text/x-handlebars" id="components/post-summary">
 <div>
 	<div class="list-group" id="accordion">
-		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		User, Role, Group
-		</a>
-		<div id="collapseOne" class="panel-collapse collapse in">
-			<ul class="nav list-group">
-				<li>{{#link-to 'users'}}User Accounts{{/link-to}}</li>
-		        <li>{{#link-to 'roles'}}Role Accounts{{/link-to}}</li>
-		        <li>{{#link-to 'groups'}}Group Accounts{{/link-to}}</li>
-		    </ul>
-		</div>
+    <a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+    File Management
+    </a>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <ul class="nav list-group">
+        <li>{{#link-to 'item1'}}Source{{/link-to}}</li>
+        <li>{{#link-to 'item1'}}Target{{/link-to}}</li>
+        <li>{{#link-to 'item1'}}File Object{{/link-to}}</li>
+        <li>{{#link-to 'item1'}}Connection{{/link-to}}</li>
+        </ul>
+    </div>
 		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-		Dapibus ac facilisis
+		User Management
 		</a>
 		<div id="collapseTwo" class="panel-collapse collapse in">
 			<ul class="nav list-group">
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+				<li>{{#link-to 'users'}}User{{/link-to}}</li>
+		        <li>{{#link-to 'roles'}}Role{{/link-to}}</li>
+		        <li>{{#link-to 'groups'}}Group{{/link-to}}</li>
+            <li>{{#link-to 'item1'}}Permission{{/link-to}}</li>
 		    </ul>
 		</div>
 		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-		Morbi leo risus
+		Monitor
 		</a>
-	  	<div id="collapseThree" class="panel-collapse collapse in">
+		<div id="collapseThree" class="panel-collapse collapse in">
 			<ul class="nav list-group">
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
-		        <li>{{#link-to 'item1'}}item1{{/link-to}}</li>
-		        <li>{{#link-to 'item2'}}item2{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}Job Status{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}Queue Status{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}Error{{/link-to}}</li>
 		    </ul>
 		</div>
+		<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+		Log
+		</a>
+	  	<div id="collapseFour" class="panel-collapse collapse in">
+			<ul class="nav list-group">
+		        <li>{{#link-to 'item1'}}View{{/link-to}}</li>
+		        <li>{{#link-to 'item1'}}Report{{/link-to}}</li>
+		    </ul>
+		</div>
+    <a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+    Alert Message
+    </a>
+    <div id="collapseFive" class="panel-collapse collapse in">
+      <ul class="nav list-group">
+        <li>{{#link-to 'item1'}}Notification{{/link-to}}</li>
+        </ul>
+    </div>
+    <a class="list-group-item" data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+    Setting
+    </a>
+    <div id="collapseSix" class="panel-collapse collapse in">
+      <ul class="nav list-group">
+        <li>{{#link-to 'item1'}}System{{/link-to}}</li>
+        <li>{{#link-to 'item1'}}Service{{/link-to}}</li>
+        </ul>
+    </div>
 	</div>
 </div>	
 </script>

@@ -182,7 +182,7 @@ App.RoleController = Ember.ObjectController.extend({
         } else {
           // property being used as a setter
           model.set('isChecked', value);
-          model.save();
+          //model.save();
           return value;
         }
     }.property('userslist.isChecked'),
@@ -223,7 +223,7 @@ App.RoleController = Ember.ObjectController.extend({
             selectedNodes.forEach(function(item){
                 if(!memberlist.contains(item)){
                     memberlist.pushObject(item);
-                    memberlist.sortBy('name');
+                    //memberlist.sortBy('name');
                 }
             });
 
@@ -232,10 +232,22 @@ App.RoleController = Ember.ObjectController.extend({
 
         },
 
-        deleteMember: function(item){
+        deleteMember: function(node){
             var memberlist = this.get('model.users');
-            memberlist.removeObject(item);
-            item.set('isChecked', false);
+            memberlist.removeObject(node);
+            //alert("item: "+node.name);
+            var nodes = this.get('userslist').find(function(item, index, enumerable){
+                    return item.name == node.name;
+            });
+            
+            //alert("node:"+ nodes.isChecked);
+
+            /*this.get('userslist').forEach(function(item){
+                if(item.name == nodes.name){
+                    item.set('isChecked', false);
+                    alert("select:"+ item.isChecked);
+                }
+            })*/
             
         }
     }
