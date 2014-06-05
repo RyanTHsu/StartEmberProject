@@ -1,40 +1,70 @@
 App.User = DS.Model.extend({
     name: DS.attr('string'),
     description: DS.attr('string'),
-    isChecked: DS.attr('boolean')
-    //roles: DS.hasMany('role', {async: true})
+    isChecked: DS.attr('boolean'),
+    //roles: DS.hasMany('role'),
+    //roles: DS.attr('array'),
 });
+
+DS.Model.reopen({
+   clone: function() {
+    var model = this,
+        attrs = model.toJSON(),
+        class_type = model.constructor;
+
+    var root = Ember.String.decamelize(class_type.toString().split('.')[1]);
+
+    /**
+     * Need to replace the belongsTo association ( id ) with the
+     * actual model instance.
+     *
+     * For example if belongsTo association is project, the
+     * json value for project will be:  ( project: "project_id_1" )
+     * and this needs to be converted to ( project: [projectInstance] )
+     *
+     */
+    this.eachRelationship(function(key, relationship){
+      if (relationship.kind == 'belongsTo') {
+        attrs[key] = model.get(key)
+      }
+    })
+
+    return Ember.copy(attrs, true);
+    //this.store.createRecord(root, attrs).save();
+  }
+
+})
 
 App.User.FIXTURES = [{
     id: '1',
     name: "Tom Cruise",
     description: "tomcruise@abc.com",
-    isChecked: false
+    isChecked: false,
 }, {
     id: '2',
     name: "Barrack Obama",
     description: "barrackobama@abc.com",
-    isChecked: false
+    isChecked: false,
 }, {
     id: '3',
     name: "Kobe Bryant",
     description: "kobebryant@abc.com",
-    isChecked: false
+    isChecked: false,
 }, {
     id: '4',
     name: "David Chen",
     description: "david@abc.com",
-    isChecked: false
+    isChecked: false,
 }, {
     id: '5',
     name: "Roger Lin",
     description: "roger@abc.com",
-    isChecked: false
+    isChecked: false,
 }, {
     id: '6',
     name: "Rita Wang",
     description: "ritawang@abc.com",
-    isChecked: false
+    isChecked: false,
 },
 ];
 

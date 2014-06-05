@@ -10,12 +10,12 @@ App.ApplicationRoute = Ember.Route.extend({
 
 });
 
-App.IndexRoute = Ember.Route.extend({
+/*App.IndexRoute = Ember.Route.extend({
     Model: function(transition) {
         // redirect root
         this.transitionTo('/');
     }
-});
+});*/
 
 App.UsersRoute = Ember.Route.extend({
     model: function() {
@@ -129,11 +129,45 @@ App.RoleRoute = Ember.Route.extend({
     },
 
     userslist: function(){
-        return this.store.find('user');
-        //var userlist = this.store.find('user');
-        /*return userlist.filter(function(item, index, self) {
-            if (item.name == 'Kobe Bryant') { return false; }
+        var obj = Ember.Object.extend(Ember.Copyable, {
+            id: null,
+            name: null,
+            description: null,
+            isChecked: false,
+
+            copy: function() {
+                // copy method is used by the PhotoEditRoute to create a clone of the model
+                // we create a clone to preserve the original incase Cancel button is clicked
+                return Em.run(this.constructor, 'create', this.serialize());
+            },
+
+            serialize: function() {
+                return this.getProperties(["id", "name", "description", "isChecked"]);
+            }
+        });
+
+        var templist = Em.A();
+        
+        var userlist = this.store.find('user').then(function(data){
+            data.forEach(function(item){
+            
+                templist.pushObject(item.clone());
+            });
+        });
+        /*var nativeArray = Ember.Mixin.create(Ember.NativeArray, {
+            copy: function(deep) {
+                if (deep) {
+                    return this.map(function(item){ return Ember.copy(item, true) });
+                } else {
+                    return this.slice();
+                }
+            }
         });*/
+        //templist.sortBy('name');
+        //nativeArray.apply(objArr);
+        
+        return templist;
+        
     },
 
     setupController: function(controller, model) {
@@ -224,7 +258,9 @@ App.RoleAddmemberRoute = Ember.Route.extend({
     },
 
     userslist: function(){
-        return this.store.find('user');
+
+        var objArr = this.store.find('user');
+        return objArr;
         //var userlist = this.store.find('user');
         /*return userlist.filter(function(item, index, self) {
             if (item.name == 'Kobe Bryant') { return false; }

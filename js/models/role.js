@@ -2,9 +2,7 @@ App.Role = DS.Model.extend({
     name: DS.attr('string'),
     description: DS.attr('string'),
     users: DS.attr('array'),
-    /*users: DS.hasMany('user', {
-        async: true
-    })*/ 
+    //users: DS.hasMany('user')
 });
 
 App.Role.FIXTURES = [{

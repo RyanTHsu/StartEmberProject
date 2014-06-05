@@ -187,6 +187,16 @@ App.RoleController = Ember.ObjectController.extend({
         }
     }.property('userslist.isChecked'),
 
+    /*someArray: function(){
+        var arr = Ember.A();
+        this.get('userslist').forEach(function(item){
+            arr.pushObject(item); //some object that is represents each specific combination
+         });
+       });
+    
+        return arr; 
+    }.property('userslist'),*/
+
     actions: {
         edit: function() {
             this.transitionToRoute('role.edit');
@@ -213,8 +223,10 @@ App.RoleController = Ember.ObjectController.extend({
             selectedNodes.forEach(function(item){
                 if(!memberlist.contains(item)){
                     memberlist.pushObject(item);
+                    memberlist.sortBy('name');
                 }
             });
+
             this.set('showDelete', false);
             $('#usersModel').modal('hide');
 
