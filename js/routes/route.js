@@ -135,7 +135,7 @@ App.RoleRoute = Ember.Route.extend({
     },
 
     userslist: function(){
-        var obj = Ember.Object.extend(Ember.Copyable, {
+        /*var obj = Ember.Object.extend(Ember.Copyable, {
             id: null,
             name: null,
             description: null,
@@ -150,7 +150,7 @@ App.RoleRoute = Ember.Route.extend({
             serialize: function() {
                 return this.getProperties(["id", "name", "description", "isChecked"]);
             }
-        });
+        });*/
 
         var templist = Em.A();
         
@@ -160,6 +160,13 @@ App.RoleRoute = Ember.Route.extend({
                 templist.pushObject(item.clone());
             });
         });
+
+        var arrlist = Ember.ArrayController.create({
+            sortProperties: ['name'],
+            sortAscending: true
+        });
+
+        arrlist.set('content', templist);
         /*var nativeArray = Ember.Mixin.create(Ember.NativeArray, {
             copy: function(deep) {
                 if (deep) {
@@ -171,8 +178,9 @@ App.RoleRoute = Ember.Route.extend({
         });*/
         //templist.sortBy('name');
         //nativeArray.apply(objArr);
-        
-        return templist;
+        //return templist;
+
+        return arrlist;
         
     },
 
@@ -264,9 +272,17 @@ App.RoleAddmemberRoute = Ember.Route.extend({
     },
 
     userslist: function(){
+        var arrlist = Ember.ArrayController.create({
+            content: this.store.find('user'),
+            sortProperties: ['name'],
+            sortAscending: true
+        });
 
-        var objArr = this.store.find('user');
-        return objArr;
+        return arrlist;
+
+        //var objArr = this.store.find('user');
+        //return objArr;
+        
         //var userlist = this.store.find('user');
         /*return userlist.filter(function(item, index, self) {
             if (item.name == 'Kobe Bryant') { return false; }

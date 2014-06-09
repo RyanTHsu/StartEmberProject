@@ -69,7 +69,7 @@ App.UsersEditController = Ember.ObjectController.extend({
         cancel: function(model) {
             //Ember.run(model, "destroy" );
             //this.storage.refresh('user');
-            this.transitionToRoute('/users');
+            this.transitionToRoute('/user');
         }
     }
 });
@@ -81,10 +81,9 @@ App.UserEditController = Ember.ObjectController.extend({
         this.transitionTo("users");
     },
 
-    cancel: function() {
-        //Ember.run(model, "destroy" );
-        //this.storage.refresh('user');
-        this.transitionToRoute('users');
+    cancel: function(model) {
+        model.rollback();
+        this.transitionToRoute('user');
     }
 });
 
@@ -256,7 +255,7 @@ App.RoleController = Ember.ObjectController.extend({
                     return item.name == node.name;
             });*/
             
-            alert("node:"+ nodes.name);
+            //alert("node:"+ nodes.name);
 
             nodes.set('isChecked', true);
 
@@ -266,11 +265,6 @@ App.RoleController = Ember.ObjectController.extend({
                     //alert("select:"+ item.isChecked);
                 }
             });*/
-        },
-
-        cancel: function(){
-            var selectedNodes = this.get('userslist');
-            selectedNodes.setEach('isChecked', false);
         }
     }
 });
@@ -283,7 +277,7 @@ App.RoleEditController = Ember.ObjectController.extend({
 
     cancel: function() {
         this.get('model').rollback();
-        this.transitionToRoute('roles');
+        this.transitionToRoute('role');
     }
 });
 
