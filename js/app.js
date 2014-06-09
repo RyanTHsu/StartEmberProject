@@ -96,7 +96,68 @@ App.Router.map(function() {
     this.resource('item2');
 });
 
-App.set('selectedNodes', Em.A());
+App.PostSummaryComponent = Ember.Component.extend({
+    actions: {
+        toggleBody: function() {
+            this.toggleProperty('isShowingBody');
+        }
+    }
+});
+
+var menu = [
+    {
+        title: "User Management",
+        nodes: [{name: 'Users',route: 'users'}, 
+                {name: 'Roles',route: 'roles'},
+                {name: 'Groups',route: 'groups'},
+                {name: 'Permission',route: 'item1'}
+                ]
+    },
+    {
+        title: "File Management",
+        nodes: [{name: 'Source',route: 'item1'}, 
+                {name: 'Target',route: 'item1'},
+                {name: 'File Object',route: 'item1'},
+                {name: 'Connection',route: 'item1'}
+                ]
+    },
+    {
+        title: "Monitor",
+        nodes: [{name: 'Job Status',route: 'item1'}, 
+                {name: 'Queue Status',route: 'item1'},
+                {name: 'Error',route: 'item1'}
+                ]
+    },
+    {
+        title: "Log",
+        nodes: [{name: 'View',route: 'item1'}, 
+                {name: 'Report',route: 'item1'}
+                ]
+    },
+    {
+        title: "Alert Message",
+        nodes: [{name: 'Notification',route: 'item1'}, 
+                ]
+    },
+    {
+        title: "Setting",
+        nodes: [{name: 'System',route: 'item1'}, 
+                {name: 'Service',route: 'item1'}
+                ]
+    }            
+];
+
+App.FadeInView = Ember.View.extend({
+    didInsertElement: function(){
+        if('isShowingBody')
+            this.$().hide().show('fast');
+        else
+            this.$().hide('fast');
+        //this.$().animate({height: openedHeight}, 'fast');
+    }
+});
+
+//App.set('selectedNodes', Em.A());
 
 $(function() {
     //$('.list-group-item').css('background', '#F8F8F8');
@@ -143,13 +204,13 @@ $(function() {
           };
     })();*/
 
-    /*$('.tree-toggle').click(function () {
-      $(this).parent().children('ul.tree').toggle(300);
-    });*/
+    $('.tree-toggle').click(function () {
+      $(this).parent().children('ul.tree').toggle(200);
+    });
 
-    /*$('.tree-toggle').hover(function () {
+    $('.tree-toggle').hover(function () {
       $(this).css('cursor', 'pointer');
-    });*/
+    });
 
     /*$('.list-group-item').mouseover(function(){
       $(this).addClass('active');

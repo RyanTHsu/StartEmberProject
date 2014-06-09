@@ -1,4 +1,8 @@
 App.ApplicationRoute = Ember.Route.extend({
+    model: function(){
+        return menu;
+    },
+
     actions: {
         goToNewUser: function() {
             this.transitionTo('usernew');
@@ -9,6 +13,8 @@ App.ApplicationRoute = Ember.Route.extend({
     }
 
 });
+
+
 
 /*App.IndexRoute = Ember.Route.extend({
     Model: function(transition) {

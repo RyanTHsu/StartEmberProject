@@ -214,6 +214,18 @@ App.RoleController = Ember.ObjectController.extend({
             //this.transitionToRoute('role.addmember');
             $('#usersModel').modal('show');
             this.set('showDelete', true);
+            var selectedNodes = this.get('userslist');
+            selectedNodes.setEach('isChecked', false);
+            memberlist = this.get('model.users');
+
+            var tempArr = [];
+
+            memberlist.forEach(function(item){
+                var nodes = selectedNodes.findBy('name', item.name);
+                tempArr.pushObject(nodes);
+            });
+
+            tempArr.setEach('isChecked', true);
         },
 
         saveMember: function(){
@@ -227,6 +239,7 @@ App.RoleController = Ember.ObjectController.extend({
                 }
             });
 
+            this.get('model').save();
             this.set('showDelete', false);
             $('#usersModel').modal('hide');
 
@@ -235,20 +248,29 @@ App.RoleController = Ember.ObjectController.extend({
         deleteMember: function(node){
             var memberlist = this.get('model.users');
             memberlist.removeObject(node);
+            this.get('model').save();
             //alert("item: "+node.name);
-            var nodes = this.get('userslist').find(function(item, index, enumerable){
+
+            var nodes = this.get('userslist').findBy('name', node.name);
+            /*var nodes = this.get('userslist').find(function(item, index, enumerable){
                     return item.name == node.name;
-            });
+            });*/
             
-            //alert("node:"+ nodes.isChecked);
+            alert("node:"+ nodes.name);
+
+            nodes.set('isChecked', true);
 
             /*this.get('userslist').forEach(function(item){
                 if(item.name == nodes.name){
                     item.set('isChecked', false);
-                    alert("select:"+ item.isChecked);
+                    //alert("select:"+ item.isChecked);
                 }
-            })*/
-            
+            });*/
+        },
+
+        cancel: function(){
+            var selectedNodes = this.get('userslist');
+            selectedNodes.setEach('isChecked', false);
         }
     }
 });

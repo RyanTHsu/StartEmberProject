@@ -9,7 +9,7 @@ body {
 #leftCol{
   float: left;
   width: 23%;
-  height: 570px;
+  height: 580px;
   background-color: #f2f2f2;
   border-radius: 10px;
   padding: 18px;
@@ -19,7 +19,7 @@ body {
 
 #rightCol {
   width: 77%;
-  height: 570px;
+  height: 580px;
   float: right;
   min-width: 350px;
   padding-left: 30px;
@@ -50,19 +50,25 @@ body {
 }
 
 .nav-header{
-  margin-top: 0px; 
 }
 
-.tree-toggle li{
-  margin-top: 0px;
-  padding-top: 0px;
-  line-height: 3px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
+
+
+.tree-toggle{
   overflow: visible;
   text-overflow: ellipsis;
   white-space: nowrap;
-  bottom: 0px;
+}
+
+.tree-toggle li{
+  line-height: 6px;
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-toggle:hover li{
+  text-decoration: underline;
 }
 
 .list-group > li{
@@ -100,6 +106,23 @@ body {
   overflow: visible;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
+}
+
+.tree:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tree-node {
+  list-style: none;
+  margin-bottom: 7px;
+  padding-left: 0px;
+}
+
+.tree-node li span { 
+  position: relative; 
+  left: 10px; 
 }
 
 .icon-std-size{
@@ -135,14 +158,20 @@ body {
   overflow-y: auto !important;
 }
 
+/*.modal .modal-body {
+  height: 200px !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}*/
+
 .darkblue {
   color: rgb(42, 100, 150);
 }
 
-.member-table {
+/*.member-table {
   margin: 0;
   padding: 0;
-}
+}*/
 
 .member-space {
   max-height: 200px;
