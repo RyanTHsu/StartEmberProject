@@ -160,13 +160,15 @@
     <div class="btn-group">
     <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Add to <span class="caret"></span></button>
     <ul style="width: 70px;" class="dropdown-menu" role="menu">
-	    <li role="presentation"><a style="font-weight: bold;" role="menuitem" tabindex="-1" href="#">Role</a></li>
+	    <li role="presentation"><a href="#" style="font-weight: bold;" role="menuitem" tabindex="-1" data-toggle="modal" data-target="#rolesModel" {{action 'addToRole'}}>Role</a></li>
 	    <li role="presentation"><a style="font-weight: bold;" role="menuitem" tabindex="-1" href="#">Group</a></li>
   	</ul>
     </div>
     </h4>
 	</div>
     <p>{{description}}</p>
+
+    <label>Roles added:</label>
     <ul>
     {{#each role in this.roles}}
     <li>{{role.name}}</li>
@@ -177,6 +179,53 @@
     <br>
   	
     	{{outlet}}
+
+
+<div class="modal fade" id="rolesModel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+           <h4 class="modal-title">Add to Role</h4>
+        </div>
+        <div>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        </table>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+              <fieldset>
+                  <table id="user-list" class="table table-striped table-condensed">
+                  <tbody>
+                    
+
+                    {{#each roleslist}}
+                    <tr>
+                      <td style="text-align: center">{{input type="checkbox" checked=isChecked class="toggle"}}</td>
+                      <td {{bind-attr class="isChecked:completed"}}>{{name}}</td>
+                      <td {{bind-attr class="isChecked:completed"}}>{{description}}</td>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                  </table>
+              </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+        <button type="button" class="btn btn-primary" {{action 'save'}}>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
    
 </div>
 </script>
@@ -333,7 +382,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-           <h4 class="modal-title">Add Members</h4>
+           <h4 class="modal-title">Edit Members</h4>
         </div>
         <div>
         <table class="table table-striped">

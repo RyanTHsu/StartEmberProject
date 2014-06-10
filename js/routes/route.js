@@ -32,6 +32,46 @@ App.UsersRoute = Ember.Route.extend({
 App.UserRoute = Ember.Route.extend({
     model: function(params) {
         return this.store.find('user', params.id);
+    },
+
+    roleModel: function(){
+        var templist = Em.A();
+        var rolelist = this.store.find('role').then(function(data){
+           data.forEach(function(item){
+            
+                templist.pushObject(item);
+            });
+        });
+
+        return templist;
+    },
+
+    roleslist: function(){
+        var templist = Em.A();
+        
+        var rolelist = this.store.find('role').then(function(data){
+            data.forEach(function(item){
+            
+                templist.pushObject(item.clone());
+            });
+        });
+
+        var arrlist = Ember.ArrayController.create({
+            sortProperties: ['name'],
+            sortAscending: true
+        });
+
+        arrlist.set('content', templist);
+
+        return arrlist;
+    },
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
+        this.controllerFor('user').set('roleslist', this.roleslist());
+        this.controllerFor('user').set('roleModel', this.roleModel());
+        //controller.set('userslist', this.userslist());
     }
 });
 
@@ -42,6 +82,7 @@ App.UsernewRoute = Ember.Route.extend({
             name: null,
             description: null,
             isChecked: false,
+            roles: null,
 
             init: function() {
                 /*if (Em.isNone(this.store.find('user'))) {
@@ -77,7 +118,7 @@ App.UsernewRoute = Ember.Route.extend({
             },
 
             serialize: function() {
-                return this.getProperties(["id", "name", "description", "isChecked"]);
+                return this.getProperties(["id", "name", "description", "isChecked", "roles"]);
             }
         });
 
@@ -199,6 +240,7 @@ App.RolenewRoute = Ember.Route.extend({
             name: null,
             description: null,
             users: null,
+            isChecked: false,
 
             init: function() {
                 this.set('id', this.createGUID());
@@ -223,7 +265,7 @@ App.RolenewRoute = Ember.Route.extend({
             },
 
             serialize: function() {
-                return this.getProperties(["id", "name", "description", "users"]);
+                return this.getProperties(["id", "name", "description", "users", "isChecked"]);
             }
         });
 

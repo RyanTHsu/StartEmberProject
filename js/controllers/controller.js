@@ -43,10 +43,115 @@ App.UsersController = Ember.ArrayController.extend({
 });
 
 App.UserController = Ember.ObjectController.extend({
+    isChecked: function(key, value){
+        var model = this.get('roleslist');
+
+        if (value === undefined) {
+          // property being used as a getter
+          return model.get('isChecked');
+        } else {
+          // property being used as a setter
+          model.set('isChecked', value);
+          //model.save();
+          return value;
+        }
+    }.property('roleslist.isChecked'),
+
     actions: {
         edit: function() {
             this.transitionToRoute('user.edit');
-        }
+        },
+
+        addToRole: function(){
+            $('#rolesModel').modal('show');
+            var selectedNodes = this.get('roleslist');
+            selectedNodes.setEach('isChecked', false);
+            var memberlist = this.get('model.roles');
+
+            var tempArr = [];
+
+            memberlist.forEach(function(item){
+                var nodes = selectedNodes.findBy('name', item.name);
+                tempArr.pushObject(nodes);
+            });
+
+            tempArr.setEach('isChecked', true);
+        },
+
+        save: function(){
+            userModel = this.get('model');
+            userObj = this.get('model').clone();
+            selectedNodes = this.get('roleslist').filterBy('isChecked', true);
+            unSelected = this.get('roleslist').filterBy('isChecked', false);
+            memberlist = this.get('model.roles');
+            var memberID = memberlist.mapBy('id');
+            
+
+            var tempArr = [];
+            unSelected.forEach(function(item){
+                if(memberID.contains(item.id)){
+                    memberlist.removeObject(item);
+                    tempArr.pushObject(item);
+                }
+            });
+
+
+
+            selectedNodes.forEach(function(item){
+                if(!memberID.contains(item.id)){
+                    memberlist.pushObject(item);
+                }
+            });
+            
+            
+            this.get('model').save();
+
+            var roleModel = this.get('roleModel');
+            //var userObj = this.get('model').clone();
+            
+
+            //alert('tempArr length: '+tempArr.length);
+
+            if(!Ember.isEmpty(tempArr)){
+                tempArr.forEach(function(item){
+                    var unSelectRole = roleModel.filterBy('name', item.name);
+                    var unSelectUser = unSelectRole.objectAt(0).get('users').findBy('name', userObj.name);
+                    unSelectRole.objectAt(0).get('users').removeObject(unSelectUser);
+                });
+            }
+
+            
+
+            memberlist.forEach(function(item){
+                var roleObj = roleModel.filterBy('name', item.name);
+                //var selectUser = roleObj.get('users').findBy('name', userModel.name);
+                //var roleID = roleObj.objectAt(0).get('users').mapBy('id');
+                //var roleID = roleObj.get('users').mapBy('name');
+                /*roleID.forEach(function(item){
+                    alert('roleID:'+item);
+                });*/
+                
+                //alert('user id: '+userModel.id);
+                //if(!Ember.isEmpty(tempArr))
+                //roleObj.get('users').removeObjects(tempArr);
+
+                //if(selectUser == null){
+                    roleObj.objectAt(0).get('users').pushObject(userObj);
+                    //roleObj.get('users').pushObject(userObj);
+                //}
+                
+                roleObj.objectAt(0).save();
+                //roleObj.save();
+            });
+
+            //this.get('model').save();
+            this.set('showDelete', false);
+            
+            $('#rolesModel').modal('hide');
+
+        },
+
+
     }
 });
 
@@ -169,7 +274,7 @@ App.RolesController = Ember.ArrayController.extend({
 
 App.RoleController = Ember.ObjectController.extend({
     showDelete: false,
-    needs: ['roleAddmember'],
+    needs: ['user'],
     userslist: [],
 
     isChecked: function(key, value){
@@ -247,6 +352,9 @@ App.RoleController = Ember.ObjectController.extend({
         deleteMember: function(node){
             var memberlist = this.get('model.users');
             memberlist.removeObject(node);
+            var roleObj = this.get('model').clone();
+            var userRole = this.get('controllers.user').get('model').get('roles');
+            userRole.removeObject(roleObj);
             this.get('model').save();
             //alert("item: "+node.name);
 

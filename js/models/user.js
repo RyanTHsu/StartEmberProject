@@ -3,7 +3,7 @@ App.User = DS.Model.extend({
     description: DS.attr('string'),
     isChecked: DS.attr('boolean'),
     //roles: DS.hasMany('role'),
-    //roles: DS.attr('array'),
+    roles: DS.attr('array'),
 });
 
 DS.Model.reopen({
@@ -40,31 +40,37 @@ App.User.FIXTURES = [{
     name: "Tom Cruise",
     description: "tomcruise@abc.com",
     isChecked: false,
+    roles: []
 }, {
     id: '2',
     name: "Barrack Obama",
     description: "barrackobama@abc.com",
     isChecked: false,
+    roles: []
 }, {
     id: '3',
     name: "Kobe Bryant",
     description: "kobebryant@abc.com",
     isChecked: false,
+    roles: []
 }, {
     id: '4',
     name: "David Chen",
     description: "david@abc.com",
     isChecked: false,
+    roles: []
 }, {
     id: '5',
     name: "Roger Lin",
     description: "roger@abc.com",
     isChecked: false,
+    roles: []
 }, {
     id: '6',
     name: "Rita Wang",
     description: "ritawang@abc.com",
     isChecked: false,
+    roles: []
 },
 ];
 
