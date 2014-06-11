@@ -30,6 +30,11 @@ App.UsersRoute = Ember.Route.extend({
 });
 
 App.UserRoute = Ember.Route.extend({
+    init: function(){
+
+    },
+
+
     model: function(params) {
         return this.store.find('user', params.id);
     },
@@ -48,10 +53,9 @@ App.UserRoute = Ember.Route.extend({
 
     roleslist: function(){
         var templist = Em.A();
-        
+
         var rolelist = this.store.find('role').then(function(data){
             data.forEach(function(item){
-            
                 templist.pushObject(item.clone());
             });
         });
@@ -69,10 +73,13 @@ App.UserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
         this._super(controller, model);
         controller.set('model', model);
-        this.controllerFor('user').set('roleslist', this.roleslist());
         this.controllerFor('user').set('roleModel', this.roleModel());
+        this.controllerFor('user').set('usedRoleslist', this.usedRoleslist);
+        this.controllerFor('user').set('roleslist', this.roleslist());
         //controller.set('userslist', this.userslist());
-    }
+    },
+
+    usedRoleslist: null
 });
 
 App.UsernewRoute = Ember.Route.extend({

@@ -64,7 +64,13 @@ App.UserController = Ember.ObjectController.extend({
 
         addToRole: function(){
             $('#rolesModel').modal('show');
-            var selectedNodes = this.get('roleslist');
+            var selectedNodes;
+            if(Ember.isEmpty(this.get('usedRoleslist'))){
+                selectedNodes = this.get('roleslist');
+                this.set('usedRoleslist', selectedNodes);
+            }else {
+                selectedNodes = this.get('usedRoleslist');
+            }
             selectedNodes.setEach('isChecked', false);
             var memberlist = this.get('model.roles');
 
@@ -79,18 +85,19 @@ App.UserController = Ember.ObjectController.extend({
         },
 
         save: function(){
-            userModel = this.get('model');
-            userObj = this.get('model').clone();
-            selectedNodes = this.get('roleslist').filterBy('isChecked', true);
-            unSelected = this.get('roleslist').filterBy('isChecked', false);
-            memberlist = this.get('model.roles');
+            var userModel = this.get('model');
+            var userObj = this.get('model').clone();
+            var selectedNodes = this.get('usedRoleslist').filterBy('isChecked', true);
+            var unSelected = this.get('usedRoleslist').filterBy('isChecked', false);
+            var memberlist = this.get('model.roles');
             var memberID = memberlist.mapBy('id');
             
 
             var tempArr = [];
             unSelected.forEach(function(item){
                 if(memberID.contains(item.id)){
-                    memberlist.removeObject(item);
+                    var memberItem = memberlist.findBy('name', item.name);
+                    memberlist.removeObject(memberItem);
                     tempArr.pushObject(item);
                 }
             });
@@ -125,8 +132,8 @@ App.UserController = Ember.ObjectController.extend({
             memberlist.forEach(function(item){
                 var roleObj = roleModel.filterBy('name', item.name);
                 //var selectUser = roleObj.get('users').findBy('name', userModel.name);
-                //var roleID = roleObj.objectAt(0).get('users').mapBy('id');
-                //var roleID = roleObj.get('users').mapBy('name');
+                var roleID = roleObj.objectAt(0).get('users').mapBy('name');
+                //var roleID = roleObj.get('users').mapBy('id');
                 /*roleID.forEach(function(item){
                     alert('roleID:'+item);
                 });*/
@@ -134,8 +141,9 @@ App.UserController = Ember.ObjectController.extend({
                 //alert('user id: '+userModel.id);
                 //if(!Ember.isEmpty(tempArr))
                 //roleObj.get('users').removeObjects(tempArr);
+                //var _id = item.get('id');
 
-                //if(selectUser == null){
+                //if(!roleID.contains(item.name)){
                     roleObj.objectAt(0).get('users').pushObject(userObj);
                     //roleObj.get('users').pushObject(userObj);
                 //}

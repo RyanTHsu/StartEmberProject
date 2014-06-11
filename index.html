@@ -96,7 +96,7 @@
     
     {{#if isShowingBody}}
     {{#view App.FadeInView contentBinding="this"}}
-    <ul class="tree-node">
+    <ul class="tree-node nav-fixed-sidebar">
     {{#each node in nodes}}
     <li><span>{{#link-to node.route}}{{node.name}}{{/link-to}}</span></li>
     {{/each}}
@@ -356,9 +356,9 @@
         <tbody>
           {{#each user in this.users}}
           <tr class="member-list">
-            <td>{{user.name}}</td>
-            <td>{{user.description}}</td>
-            <td>
+            <td class="td-field">{{user.name}}</td>
+            <td class="td-field">{{user.description}}</td>
+            <td class="td-icon">
             <span class="glyphicon glyphicon-remove icon-std icon-delete" {{action 'deleteMember' user}}></span>
             </td>
           </tr>

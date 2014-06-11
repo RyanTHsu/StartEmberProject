@@ -125,6 +125,11 @@ body {
   left: 10px; 
 }
 
+/*.tree-node li:hover{ 
+  background: #B0C4DE;
+}*/
+
+
 .icon-std-size{
   font-size: 20px;
   cursor: pointer;
@@ -179,10 +184,32 @@ body {
 }
 
 
+.member-space .td-field {
+   text-align: left;  
+}
+
+.member-space .td-icon {
+   text-align: center;  
+}
+
 /*.table-scrollable { 
   margin: 0; 
   padding: 0; 
 }*/
+.text-right
+{
+    text-align: right !important;
+}
+
+.text-center
+{
+    text-align: center !important;
+}
+
+.text-left
+{
+    text-align: left !important;
+}
 
 .member-list span {
   visibility: hidden;
