@@ -90,7 +90,17 @@ App.Router.map(function() {
     });
 
     this.resource('groups');
-    this.resource('angular');
+
+    this.resource('configs');
+
+    this.resource('config', {
+        path: 'config/:config_id'
+    });
+
+    this.resource('confignew', {
+        path: 'config/new'
+    });
+
     this.resource('backbone');
     this.resource('item1');
     this.resource('item2');
@@ -111,6 +121,12 @@ var menu = [
                 {name: 'Roles',route: 'roles'},
                 {name: 'Groups',route: 'groups'},
                 {name: 'Permission',route: 'item1'}
+                ]
+    },
+    {
+        title: "File Service",
+        nodes: [{name: 'Configuration',route: 'configs'}, 
+                {name: 'Status',route: 'item1'}
                 ]
     },
     {
@@ -156,8 +172,6 @@ App.FadeInView = Ember.View.extend({
         //this.$().animate({height: openedHeight}, 'fast');
     }
 });
-
-//App.set('selectedNodes', Em.A());
 
 $(function() {
     //$('.list-group-item').css('background', '#F8F8F8');

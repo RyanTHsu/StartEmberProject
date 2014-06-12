@@ -345,3 +345,84 @@ App.RoleAddmemberRoute = Ember.Route.extend({
         //controller.set('userslist', this.userslist());
     }
 });
+
+
+
+App.ConfigsRoute = Ember.Route.extend({
+    model: function() {
+        return this.store.find('config');
+    },
+
+    actions: {
+        goToNewConfig: function() {
+            this.transitionTo('confignew');
+        },
+        goToConfig: function(model) {
+            this.transitionTo('config', model);
+        },
+        editConfig: function(model) {
+            this.transitionTo('config', model);
+        }
+    }
+});
+
+App.ConfigRoute = Ember.Route.extend({
+    model: function(params) {
+        return this.store.find('config', params.id);
+    },
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
+    }
+
+});
+
+App.ConfignewRoute = Ember.Route.extend({
+    /*model: function() {
+        var obj = Ember.Object.extend(Ember.Copyable, {
+            id: null,
+            name: null,
+            description: null,
+            type: null,
+            isActivate: true,
+            ip: null,
+            port: null,
+
+            init: function() {
+                this.setProperties({ isActivate: true });
+            },
+
+            copy: function() {
+                // copy method is used by the PhotoEditRoute to create a clone of the model
+                // we create a clone to preserve the original incase Cancel button is clicked
+                return Em.run(this.constructor, 'create', this.serialize());
+            },
+
+            serialize: function() {
+                return this.getProperties(["id", "name", "type", "isActivate", "ip", "port"]);
+            }
+        });
+
+        return obj.create();
+    },*/
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
+        controller.set('isActivate', true);
+    }
+});
+
+
+/*App.ConfigsEditRoute = Ember.Route.extend({
+    model: function(params) {
+        return this.store.find('config', params.id);
+    },
+
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('model', model);
+    }
+
+});*/

@@ -535,3 +535,160 @@ App.CheckboxItemController = Ember.ObjectController.extend({
         }
     }.observes('selected')
 });
+
+App.ConfigsController = Ember.ArrayController.extend({
+    deleteMode: false,
+
+    sortProperties: ['name'],
+    sortAscending: true,
+    item: null,
+    actions: {
+        edit: function(model) {
+            this.transitionToRoute('configs.edit', model);
+        },
+
+        delete: function(model) {
+            $('#dialog1').modal('show');
+            this.set('item', model);
+        },
+
+        cancelDelete: function() {
+            $('#dialog1').modal('hide');
+        },
+
+        confirmDelete: function(model) {
+            // this tells Ember-Data to delete the current role
+            this.get('item').deleteRecord();
+            this.get('item').save();
+            $('#dialog1').modal('hide');
+        }
+    }
+});
+
+
+App.ConfigController = Ember.ObjectController.extend({
+    isActivate: function(key, value){
+        var model = this.get('model');
+
+        if (value === undefined) {
+          // property being used as a getter
+          return model.get('isActivate');
+        } else {
+          // property being used as a setter
+          model.set('isActivate', value);
+          //model.save();
+          return value;
+        }
+    }.property('isActivate'),
+
+    update: function() {
+        this.get('model').save();
+        this.transitionTo("configs");
+    },
+
+    cancel: function() {
+        this.get('model').rollback();
+        this.transitionToRoute('configs');
+    }
+});
+
+
+
+
+
+
+App.ConfignewController = Ember.ObjectController.extend({
+   isActivate: function(key, value){
+        var model = this.get('model');
+
+        if (value === undefined) {
+          // property being used as a getter
+          return model.get('isActivate');
+        } else {
+          // property being used as a setter
+          model.set('isActivate', value);
+          //model.save();
+          return value;
+        }
+    }.property('isActivate'),
+    
+    actions: {
+        create: function() {
+            var _name = this.get('name');
+            if (!_name.trim()) { return; }
+
+            /*var guid = (function() {
+              function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                           .toString(16)
+                           .substring(1);
+              }
+              return function() {
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                       s4() + '-' + s4() + s4() + s4();
+              };
+            })();*/
+
+            var uuid = guid();
+            var _isAct = this.get('isActivate');
+            var _description = this.get('description');
+            
+            var _type = this.get('type');
+            var _ip = this.get('ip');
+            var _port = this.get('port');
+
+            var newConfig = this.store.createRecord('config', {
+                id: uuid,
+                name: _name,
+                isActivate: _isAct,
+                description: _description,
+                type: _type,
+                ip: _ip,
+                port: _port
+            });
+
+            var self = this;
+
+            var onSuccess = function() {
+                self.transitionToRoute('configs');
+            };
+
+            var onFail = function() {
+                // deal with the failure here
+            };
+
+            this.set('name', '');
+            this.set('description', '');
+            this.set('type', '');
+            this.set('ip', '');
+            this.set('port', null);
+
+            newConfig.save().then(onSuccess, onFail);
+
+        },
+
+        cancel: function() {
+            this.set('name', '');
+            this.set('description', '');
+            this.set('type', '');
+            this.set('ip', '');
+            this.set('port', null);
+            this.transitionTo('configs');
+        }
+    }
+});
+
+
+
+var guid = (function() {
+              function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                           .toString(16)
+                           .substring(1);
+              }
+              return function() {
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                       s4() + '-' + s4() + s4() + s4();
+              };
+})();
+

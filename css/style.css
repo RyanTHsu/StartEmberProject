@@ -236,6 +236,11 @@ body {
 
 
 
+.form-std{
+  max-height: 400px;
+  overflow-x: hidden;
+}
+
 #user-list .completed {
   color: #a9a9a9;
   text-decoration: line-through;
@@ -265,6 +270,26 @@ body {
 .icon-bar {
 	background-color:#fff;
 }
+
+
+
+.control-label {
+    text-align: left !important;
+}
+
+.form-group label + .no-gap {
+  margin-left: -30px;
+}
+
+.checkbox {
+  margin: 0;
+  margin-left: 20px;
+}
+
+.no-space {
+  margin-left: 10px;
+}
+
 
 .navbar-collapse{
   /*padding-top:3px;

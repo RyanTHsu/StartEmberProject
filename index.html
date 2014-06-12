@@ -488,6 +488,150 @@
 </div>
 </script>
 
+<script type="text/x-handlebars" id="configs">
+<h3>File Services <button class="btn btn-primary new pull-right title-btn" {{action 'goToNewConfig'}}>New</button>&nbsp;
+<span class="glyphicon glyphicon-question-sign icon-std-size"></span>
+</h3>
+<table class="table table-striped table-hover form-std">
+  <tbody>
+  <tr>
+    <th>Name</th>
+    <th>Activate</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  {{#each}}
+    <tr>
+    <td {{action 'editConfig' this}}><a href="#">{{name}}</a></td>
+    {{#if isActivate}}
+    <td>Yes</td>
+    {{else}}
+    <td>No</td>
+    {{/if}}
+    <td>{{description}}</td>
+      <td>
+        <span class="edit glyphicon glyphicon-edit icon-std-size" {{action 'goToConfig' this}}></span>&nbsp;
+        <span class="remove glyphicon glyphicon-remove-circle icon-std-size red" data-toggle="modal" data-target="#dialog1" {{action 'delete' this}}></span>
+      </td>
+    </tr>
+    
+  {{/each}}
+  </tbody>
+</table>
+<div id="dialog1" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Delete Item?</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure deleting this item permanantly?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" {{action "cancelDelete"}}>No</button>
+            <button type="button" class="btn btn-primary" {{action "confirmDelete"}}>Yes</button>
+          </div>
+        </div>
+    </div>
+</div>
+</script>
+
+<!--
+<script type="text/x-handlebars" id="config">
+<legend>Configuration
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <button class="btn btn-sm btn-primary">Edit</button>
+  <button class="btn btn-sm btn-success">Save</button>
+  <button class="btn btn-sm btn-default">Cancel</button>
+</legend>
+<h4>File Service Name:<small>{{name}}</small>
+  &nbsp;
+  &nbsp;
+  <a>Activate: </a><span>{{input type='checkbox'}}</span>
+</h4>
+<h4>Description:<small>{{description}}</small></h4>
+<h4>Service Type:<small>{{type}}</small></h4>
+<h4>Service IP:<small>{{ip}}</small></h4>
+<h4>Service Port:<small>{{port}}</small></h4>
+      
+    
+      {{outlet}}
+
+  
+</script>
+-->
+
+<script type="text/x-handlebars" id="config">
+<div class="edit">
+<form class="form-horizontal">
+  <fieldset>
+    <legend>File Service
+    <span style="padding-top: 7px;" class="glyphicon glyphicon-question-sign icon-std-size pull-right no-space"></span>
+    <button class="btn btn-sm btn-danger pull-right no-space" {{action 'cancel'}}>Cancel</button>
+    <button class="btn btn-sm btn-primary pull-right no-space" {{action 'update'}}>Save</button>
+    </legend>
+    {{partial 'formConfig'}}
+  </fieldset>
+</form>
+  
+</div>
+</script>
+
+
+<script type="text/x-handlebars" id="confignew">
+<form class="form-horizontal">
+  <fieldset>
+    <legend>New File Service
+    <button class="btn btn-sm btn-danger pull-right no-space" {{action 'cancel'}}>Cancel</button>
+    <button class="btn btn-sm btn-primary pull-right no-space" {{action 'create'}}>Create</button>
+    </legend>
+    {{partial 'formConfig'}}
+  </fieldset>
+</form>
+</script>
+
+<script type="text/x-handlebars" id="formConfig">
+<div class="form-std">
+<div class="row form-group">
+  <label class="control-label col-xs-3" for="inputName">File Service Name</label>
+  <div class="col-xs-4 no-gap">
+    {{input class="form-control" value=name}}
+  </div>
+  <label class="control-label col-xs-1 col-xs-offset-1">Activate</label>
+  <div class="col-xs-1 checkbox">
+     {{input type="checkbox" checked=isActivate class="toggle"}}
+  </div>
+</div>
+<div class="row form-group">
+  <label class="control-label col-xs-3" for="textareaDescription">Description</label>
+  <div class="col-xs-9 no-gap">
+    {{textarea class="form-control" value=description}}
+  </div>
+</div>
+<div class="row form-group">
+  <label class="control-label col-xs-3">Service Type</label>
+  <div class="col-xs-4 no-gap">
+    {{input class="form-control" value=type}}
+  </div>
+</div>
+<div class="row form-group">
+  <label class="control-label col-xs-3">Service IP</label>
+  <div class="col-xs-4 no-gap">
+    {{input class="form-control" value=ip}}
+  </div>
+</div>
+<div class="row form-group">
+  <label class="control-label col-xs-3">Service Port</label>
+  <div class="col-xs-2 no-gap">
+    {{input class="form-control" value=port}}
+  </div>
+</div>
+</div>
+</script>
+
 <script type="text/x-handlebars" id="item1">
 <div class="item1">
 <p>This is item1.</p>
@@ -508,6 +652,7 @@
 <script src="js/app.js"></script>
 <script src="js/models/user.js"></script>
 <script src="js/models/role.js"></script>
+<script src="js/models/config.js"></script>
 <script src="js/routes/route.js"></script>
 <script src="js/controllers/controller.js"></script>
 <!--<script src="js/lib/emberui/dist/globals/main.js"></script>-->
