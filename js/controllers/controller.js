@@ -567,6 +567,15 @@ App.ConfigsController = Ember.ArrayController.extend({
 
 
 App.ConfigController = Ember.ObjectController.extend({
+    //types: ["FTP", "FTPS", "SFTP"],
+
+    types: [
+            {title: "FTP", id: '1'},
+            {title: "FTPS", id: '2'},
+            {title: "SFTP", id: '3'},
+            {title: "FXS", id: '4'}
+    ],
+
     isActivate: function(key, value){
         var model = this.get('model');
 
@@ -582,6 +591,25 @@ App.ConfigController = Ember.ObjectController.extend({
     }.property('isActivate'),
 
     update: function() {
+        var _ip = this.get('model.ip');
+        if(validateIP(_ip) == false){
+            alert("The ip is not valid ip");
+            return;
+        }
+
+
+        var _port = parseInt(this.get('model.port'));
+        if(!isInt(_port)){ 
+            alert("The port number is not an integer");
+            return; 
+        }
+
+        var _type = parseInt(this.get('model.type'));
+        if(!(_type >= 1 && _type <= 4)){
+                alert("Please select a type");
+                return;
+        }
+
         this.get('model').save();
         this.transitionTo("configs");
     },
@@ -592,13 +620,19 @@ App.ConfigController = Ember.ObjectController.extend({
     }
 });
 
-
-
-
-
-
 App.ConfignewController = Ember.ObjectController.extend({
-   isActivate: function(key, value){
+    type: null,
+
+    //types: ["FTP", "FTPS", "SFTP"],
+
+    types: [
+            {title: "FTP", id: '1'},
+            {title: "FTPS", id: '2'},
+            {title: "SFTP", id: '3'},
+            {title: "FXS", id: '4'}
+    ],
+
+    isActivate: function(key, value){
         var model = this.get('model');
 
         if (value === undefined) {
@@ -611,23 +645,14 @@ App.ConfignewController = Ember.ObjectController.extend({
           return value;
         }
     }.property('isActivate'),
-    
+
     actions: {
         create: function() {
             var _name = this.get('name');
-            if (!_name.trim()) { return; }
-
-            /*var guid = (function() {
-              function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                           .toString(16)
-                           .substring(1);
-              }
-              return function() {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                       s4() + '-' + s4() + s4() + s4();
-              };
-            })();*/
+            if (!_name.trim()) {
+                alert("Please input Service Title"); 
+                return; 
+            }
 
             var uuid = guid();
             var _isAct = this.get('isActivate');
@@ -635,7 +660,24 @@ App.ConfignewController = Ember.ObjectController.extend({
             
             var _type = this.get('type');
             var _ip = this.get('ip');
-            var _port = this.get('port');
+            var _port = parseInt(this.get('port'));
+
+            if(validateIP(_ip) == false){ 
+                alert("The ip is not valid ip");
+                return; 
+            }
+
+            if(!isInt(_port) || !this.get('port').trim()){ 
+                alert("The port number is not an integer");
+                return; 
+            }
+
+            var __type = parseInt(_type);
+
+            if(!(__type >= 1 && __type <= 4)){
+                alert("Please select a type");
+                return;
+            }
 
             var newConfig = this.store.createRecord('config', {
                 id: uuid,
@@ -649,6 +691,8 @@ App.ConfignewController = Ember.ObjectController.extend({
 
             var self = this;
 
+            //alert('selectedType: '+_type);
+
             var onSuccess = function() {
                 self.transitionToRoute('configs');
             };
@@ -659,20 +703,19 @@ App.ConfignewController = Ember.ObjectController.extend({
 
             this.set('name', '');
             this.set('description', '');
-            this.set('type', '');
             this.set('ip', '');
             this.set('port', null);
+            this.set('type', null);
 
             newConfig.save().then(onSuccess, onFail);
-
         },
 
         cancel: function() {
             this.set('name', '');
             this.set('description', '');
-            this.set('type', '');
             this.set('ip', '');
             this.set('port', null);
+            this.set('type', null);
             this.transitionTo('configs');
         }
     }
@@ -691,4 +734,16 @@ var guid = (function() {
                        s4() + '-' + s4() + s4() + s4();
               };
 })();
+
+var validateIP = function(ip) { 
+    var re = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
+    return re.test(ip);
+}
+
+var isInt = function(value) {
+   return !isNaN(value) && parseInt(Number(value)) == value;
+}
+
+
+
 
