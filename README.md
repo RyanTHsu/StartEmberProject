@@ -1,7 +1,13 @@
-starter-kit
+A fundamental Single Page Application by Ember.js
 ===========
+This is a basic web application and is built by Ember.js.
 
-A starter kit for Ember with Bower support.
+It has some fundamental features such as CRUD.
+
+We will give it more supports and reinforce it in the future.
+
+BTW, the database connection and the web service by RESTful API is complete but hasn't been committed yet.  
+
 
 This is a fork of the official [Ember starter-kit](https://github.com/emberjs/starter-kit) but dependencies are 
 installed by [Bower](http://bower.io/)
